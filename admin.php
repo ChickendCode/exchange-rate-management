@@ -312,6 +312,21 @@ function view_rate_history() {
 	}
 }
 
+/**
+ * Add action process save rate history
+ */
+add_action( 'wp_ajax_get_all_rate_history', 'get_all_rate_history' );
+function get_all_rate_history() {
+	try {
+        global $wpdb;
+        $rate_history = $wpdb->get_results("SELECT * FROM wp_rate_history");
+        wp_send_json( array('status_code'=> 200, 'success' => true, 'message' => '', 'data'=> $rate_history), $status_code = 200 );
+	
+	} catch (Exception $e) {
+		wp_send_json( array('fail' => false, 'message' => 'Error server'), $status_code = null );
+	}
+}
+
 function get_rate_history_by_date($date) {
     global $wpdb;
     $rate_history = $wpdb->get_results("SELECT * FROM wp_rate_history where date='".$date."'");
