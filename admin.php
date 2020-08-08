@@ -48,16 +48,16 @@ function create_plugin_database_table() {
         $sql .= "  `rate_buy`  int(128)   NOT NULL, ";
         $sql .= "  `rate_sale`  int(128)   NOT NULL, ";
         $sql .= "  PRIMARY KEY `rate_id` (`id`) "; 
-        $sql .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8mb4_unicode_ci AUTO_INCREMENT=1 ; ";
+        $sql .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ; ";
         require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
         dbDelta($sql);
     }
 
     // Create table Rate history
-    $wp_rate_history_table = 'wp_history';
+    $wp_rate_history_table = 'wp_rate_history';
 
     #Check to see if the table exists already, if not, then create it
-    if($wpdb->get_var( "show tables like wp_history" ) != $wp_rate_history_table) 
+    if($wpdb->get_var( "show tables like wp_rate_history" ) != $wp_rate_history_table) 
     {
 
         $sql = "CREATE TABLE `". $wp_rate_history_table . "` ( ";
@@ -66,7 +66,7 @@ function create_plugin_database_table() {
         $sql .= "  `rate_sale`  int(128)   NOT NULL, ";
         $sql .= "  `date`  datetime   NOT NULL DEFAULT '0000-00-00 00:00:00', ";
         $sql .= "  PRIMARY KEY `rate_history_id` (`id`) "; 
-        $sql .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8mb4_unicode_ci AUTO_INCREMENT=1 ; ";
+        $sql .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ; ";
         require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
         dbDelta($sql);
     }
