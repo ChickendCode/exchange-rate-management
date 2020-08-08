@@ -2,7 +2,8 @@
 jQuery(document).ready(function($) {
 
     const ACTION = {
-        SAVE_RATE: 'save_rate'
+        SAVE_RATE: 'save_rate',
+        SAVE_RATE_HISTORY: 'save_rate_history'
     }
 
     // Area of menu Tỷ giá start ===================================================
@@ -40,6 +41,9 @@ jQuery(document).ready(function($) {
             $('.exchange_rate_menu #priceSale').text(priceSale);
         }
 
+        /**
+         * Event save rate
+         */
         $('.exchange_rate_menu #saveRate').click(function() {
             let rate = $('.exchange_rate_menu #rate').val();
             let rateBuy = $('.exchange_rate_menu #rateBuy').val();
@@ -230,6 +234,37 @@ jQuery(document).ready(function($) {
         dataset.type = 'line';
         dataset.data = generateData();
         chart.update();
+
+        /**
+         * Event save rate history
+         */
+        $('.chart_menu #saveRateHistory').click(function() {
+            let datepicker = $('.chart_menu #datepicker').val();
+            let rateBuy = $('.chart_menu #rateBuy').val();
+            let rateSale = $('.chart_menu #rateSale').val();
+
+            if (datepicker == '' || rateBuy == '' || rateSale == '') {
+                alert('Hãy nhập đầy đủ thông tin');
+                return false;
+            }
+
+            let data = {
+                action: ACTION.SAVE_RATE_HISTORY,
+                datepicker: datepicker,
+                rateBuy: rateBuy,
+                rateSale: rateSale
+            };
+
+            $.ajax({
+                url: exchange_rate_js_vars.ajaxurl,
+                type: "POST",
+                data: data,
+                dataType: "json",
+                success: function(data) {
+                    alert(data.message);
+                }
+            })
+        });
     }
     // Area of menu Biểu đồ end ===================================================
 
