@@ -230,7 +230,7 @@ function chart_menu_content() {
             </tr>
             <tr>
                 <td colspan="2"><input style="width: 100%;" type="text" id="datepicker" width="100%"></td>
-                <td><button>Xem dữ liệu</button></td>
+                <td><button id="viewRateHistory">Xem dữ liệu</button></td>
             </tr>
             <tr>
                 <td>Tỷ giá mua</td>
@@ -265,22 +265,20 @@ function save_rate_history() {
         $parts = explode('/', $_POST['datepicker']);
         $datepicker  = "$parts[2]-$parts[1]-$parts[0]";
 
-        // $rate_history = get_rate_history_by_date($date);
-        // // Update data
-        // if (0 > 1) {
-        //     // Create query update
-        //     // $query = 'UPDATE `wp_rate` 
-        //     //         SET `rate`='. $rate .',`rate_buy`='. $rateBuy .',`rate_sale`='. $rateSale.'';
+        $rate_history = get_rate_history_by_date($datepicker);
+        // Update data
+        if (count($rate_history) > 0) {
+            // Create query update
+            $query = "UPDATE `wp_rate_history` 
+                    SET `rate_buy`=". $rateBuy .",`rate_sale`=". $rateSale."
+                    where date='". $datepicker."'";
         
-        // // Insert data
-        // } else {
-        //     // Create query insert
-        //     $query = 'INSERT INTO `wp_rate_history`(`rate_buy`, `rate_sale`, `date`) 
-        //             VALUES ('. $rateBuy .', '. $rateSale .', STR_TO_DATE('. $date .', "%m/%d/%Y")';
-        // }
-
-        $query = "INSERT INTO `wp_rate_history`(`rate_buy`, `rate_sale`, `date`) 
+        // Insert data
+        } else {
+            // Create query insert
+            $query = "INSERT INTO `wp_rate_history`(`rate_buy`, `rate_sale`, `date`) 
                     VALUES (". $rateBuy .", ". $rateSale .", '". $datepicker ."')";
+        }
 		
 		$wpdb->query( $query );
 
@@ -291,7 +289,33 @@ function save_rate_history() {
 	}
 }
 
+/**
+ * Add action process save rate history
+ */
+add_action( 'wp_ajax_view_rate_history', 'view_rate_history' );
+function view_rate_history() {
+	try {
+        $parts = explode('/', $_POST['datepicker']);
+        $datepicker  = "$parts[2]-$parts[1]-$parts[0]";
+
+        $rate_history = get_rate_history_by_date($datepicker);
+        // Update data
+        if (count($rate_history) > 0) {
+            wp_send_json( array('status_code'=> 200, 'success' => true, 'message' => '', 'data'=> $rate_history[0]), $status_code = 200 );
+        
+        } else {
+            wp_send_json( array('status_code'=> 400, 'success' => true, 'message' => 'Không tìm thấy dữ liệu',  'data'=> []), $status_code = 404 );
+        }
+	
+	} catch (Exception $e) {
+		wp_send_json( array('fail' => false, 'message' => 'Error server'), $status_code = null );
+	}
+}
+
 function get_rate_history_by_date($date) {
-    return '';
+    global $wpdb;
+    $rate_history = $wpdb->get_results("SELECT * FROM wp_rate_history where date='".$date."'");
+
+    return $rate_history;
 }
 // ================================Area of menu Biểu đồ end================================

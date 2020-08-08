@@ -3,7 +3,8 @@ jQuery(document).ready(function($) {
 
     const ACTION = {
         SAVE_RATE: 'save_rate',
-        SAVE_RATE_HISTORY: 'save_rate_history'
+        SAVE_RATE_HISTORY: 'save_rate_history',
+        VIEW_RATE_HISTORY: 'view_rate_history'
     }
 
     // Area of menu Tỷ giá start ===================================================
@@ -262,6 +263,38 @@ jQuery(document).ready(function($) {
                 dataType: "json",
                 success: function(data) {
                     alert(data.message);
+                }
+            })
+        });
+
+        /**
+         * Event save rate history
+         */
+        $('.chart_menu #viewRateHistory').click(function() {
+            let datepicker = $('.chart_menu #datepicker').val();
+
+            if (datepicker == '') {
+                alert('Hãy nhập đầy đủ thông tin');
+                return false;
+            }
+
+            let data = {
+                action: ACTION.VIEW_RATE_HISTORY,
+                datepicker: datepicker
+            };
+
+            $.ajax({
+                url: exchange_rate_js_vars.ajaxurl,
+                type: "POST",
+                data: data,
+                dataType: "json",
+                success: function(data) {
+                    if (data.status_code == 200) {
+                        $('.chart_menu #rateBuy').val(data.data.rate_buy);
+                        $('.chart_menu #rateSale').val(data.data.rate_sale);
+                    } else {
+                        alert(data.message);
+                    }
                 }
             })
         });
