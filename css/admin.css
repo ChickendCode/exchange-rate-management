@@ -1,0 +1,24 @@
+.exchange_rate_menu table tr td {
+    width: 40%;
+    padding: 10px 0px;
+}
+
+.exchange_rate_menu table button {
+    background-color: #007bff;
+    width: 100%;
+    height: 30px;
+    border: none;
+    color: white;
+    outline: none;
+    cursor: pointer;
+}
+
+.exchange_rate_menu table button:hover {
+    background-color: #0069d9;
+}
+
+.exchange_rate_menu .price-buy,
+.exchange_rate_menu .price-sale {
+    color: red;
+    text-align: center;
+}
