@@ -48,7 +48,25 @@ function create_plugin_database_table() {
         $sql .= "  `rate_buy`  int(128)   NOT NULL, ";
         $sql .= "  `rate_sale`  int(128)   NOT NULL, ";
         $sql .= "  PRIMARY KEY `rate_id` (`id`) "; 
-        $sql .= ") ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ; ";
+        $sql .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8mb4_unicode_ci AUTO_INCREMENT=1 ; ";
+        require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
+        dbDelta($sql);
+    }
+
+    // Create table Rate history
+    $wp_rate_history_table = 'wp_history';
+
+    #Check to see if the table exists already, if not, then create it
+    if($wpdb->get_var( "show tables like wp_history" ) != $wp_rate_history_table) 
+    {
+
+        $sql = "CREATE TABLE `". $wp_rate_history_table . "` ( ";
+        $sql .= "  `id`  int(11)   NOT NULL auto_increment, ";
+        $sql .= "  `rate_buy`  int(128)   NOT NULL, ";
+        $sql .= "  `rate_sale`  int(128)   NOT NULL, ";
+        $sql .= "  `date`  datetime   NOT NULL DEFAULT '0000-00-00 00:00:00', ";
+        $sql .= "  PRIMARY KEY `rate_history_id` (`id`) "; 
+        $sql .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8mb4_unicode_ci AUTO_INCREMENT=1 ; ";
         require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
         dbDelta($sql);
     }
@@ -106,7 +124,7 @@ function exchange_rate_menu_content() {
                 <tr>
                     <td></td>
                     <td></td>
-                    <td><button id="saveRate">Lưu</button></td>
+                    <td><button id="saveRate">Lưu dữ liệu</button></td>
                 </tr>
             </table>
         </div>
@@ -225,8 +243,7 @@ function chart_menu_content() {
                 <td><button>Lưu dữ liệu</button></td>
             </tr>
         </table>
-        <div style="width:1000px">
-            <p>This example demonstrates a time series scale by drawing a financial line chart using just the core library. For more specific functionality for financial charts, please see <a href="https://github.com/chartjs/chartjs-chart-financial">chartjs-chart-financial</a></p>
+        <div style="width: 500px">
             <canvas id="chart1"></canvas>
         </div>
     </div>

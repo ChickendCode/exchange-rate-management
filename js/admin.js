@@ -133,7 +133,7 @@ jQuery(document).ready(function($) {
         }
 
         var ctx = document.getElementById('chart1').getContext('2d');
-        ctx.canvas.width = 1000;
+        ctx.canvas.width = 500;
         ctx.canvas.height = 300;
 
         var color = Chart.helpers.color;

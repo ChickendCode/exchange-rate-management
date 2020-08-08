@@ -3,22 +3,29 @@
     padding: 10px 0px;
 }
 
-.exchange_rate_menu table button {
-    background-color: #007bff;
-    width: 100%;
-    height: 30px;
-    border: none;
-    color: white;
-    outline: none;
-    cursor: pointer;
-}
-
-.exchange_rate_menu table button:hover {
-    background-color: #0069d9;
-}
-
 .exchange_rate_menu .price-buy,
 .exchange_rate_menu .price-sale {
     color: red;
     text-align: center;
+}
+
+.chart_menu table tr td {
+    padding-right: 10px;
+    padding-bottom: 5px;
+}
+
+.chart_menu button,
+.exchange_rate_menu button {
+    height: 30px;
+    color: #639DBC;
+    border: solid 1px;
+    width: 100px;
+    outline: none;
+    cursor: pointer;
+}
+
+.chart_menu input:focus,
+.exchange_rate_menu input:focus {
+    border: solid 2px #B6DAF4;
+    box-shadow: none;
 }
