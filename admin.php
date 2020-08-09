@@ -20,6 +20,7 @@ function load_admin_style() {
    wp_enqueue_script( 'exchange_rate-jquery-ui', plugins_url( '/js/lib/jquery-ui.min.js', __FILE__ ) );
    
    wp_enqueue_script( 'exchange_rate-moment', plugins_url( '/js/lib/moment.min.js', __FILE__ ) );
+   wp_enqueue_script( 'exchange_rate-moment', plugins_url( '/js/lib/moment-timezone-with-data.js', __FILE__ ) );
    wp_enqueue_script( 'exchange_rate-chart-js', plugins_url( '/js/lib/Chart.min.js', __FILE__ ) );
    wp_enqueue_script( 'exchange_rate-utils', plugins_url( '/js/lib/utils.js', __FILE__ ) );
 
@@ -328,8 +329,19 @@ add_action( 'wp_ajax_get_all_rate_history', 'get_all_rate_history' );
 function get_all_rate_history() {
 	try {
         global $wpdb;
-        $rate_history = $wpdb->get_results("SELECT * FROM wp_rate_history");
-        wp_send_json( array('status_code'=> 200, 'success' => true, 'message' => '', 'data'=> $rate_history), $status_code = 200 );
+
+        $startDate = $_POST['startDate'];
+        $endDate = $_POST['endDate'];
+
+        $sql = "
+            select * from wp_rate_history
+            where 
+                date between '".$startDate."'
+            and
+                DATE_ADD('".$endDate."',INTERVAL 1 DAY)
+        ";
+        $rate_history = $wpdb->get_results($sql);
+        wp_send_json( array('status_code'=> 200, 'success' => true, 'message' => $sql, 'data'=> $rate_history), $status_code = 200 );
 	
 	} catch (Exception $e) {
 		wp_send_json( array('fail' => false, 'message' => 'Error server'), $status_code = null );

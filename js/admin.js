@@ -84,18 +84,53 @@ jQuery(document).ready(function($) {
             maxDate: new Date
         }).datepicker("setDate", new Date());
 
-        // Get data for char
-        $.ajax({
-            url: exchange_rate_js_vars.ajaxurl,
-            type: "POST",
-            data: { action: ACTION.GET_ALL_RATE_HISTORY },
-            dataType: "json",
-            success: function(res) {
-                drawChart(res.data);
+        function getThisWeekDates() {
+            let startDayTemp = moment();
+            const FORMAT_DATA = {
+                YYYY_MM_DD: 'YYYY-MM-DD'
             }
-        })
 
+            var day = startDayTemp.day();
+            var startDate;
+            var endDate;
 
+            if (day == 0) {
+                day = 7;
+                startDate = moment().add('days', -(day - 1)).format(FORMAT_DATA.YYYY_MM_DD);
+                endDate = moment().format(FORMAT_DATA.YYYY_MM_DD);
+            } else {
+                startDate = moment().add('days', -(day - 1)).format(FORMAT_DATA.YYYY_MM_DD);
+                endDate = moment().add('days', (7 - day)).format(FORMAT_DATA.YYYY_MM_DD);
+            }
+
+            return {
+                startDate: startDate,
+                endDate: endDate
+            }
+        }
+
+        // Get data for char
+        getDataForChart(getThisWeekDates());
+
+        /**
+         * Get data for char
+         */
+        function getDataForChart(date) {
+            // Get data for char
+            $.ajax({
+                url: exchange_rate_js_vars.ajaxurl,
+                type: "POST",
+                data: {
+                    action: ACTION.GET_ALL_RATE_HISTORY,
+                    startDate: date.startDate,
+                    endDate: date.endDate
+                },
+                dataType: "json",
+                success: function(res) {
+                    drawChart(res.data);
+                }
+            })
+        }
 
         function drawChart(data) {
             var ctx = document.getElementById('chart1').getContext('2d');
@@ -277,6 +312,11 @@ jQuery(document).ready(function($) {
                 left: offset.left - 100,
                 display: 'block'
             })
+        });
+
+        $('.chart_menu .menu-select-child li').click(function() {
+            $(this).siblings('.active').removeClass('active');
+            $(this).addClass('active');
         });
 
         $(document).click(function(event) {

@@ -59,6 +59,7 @@
 .chart_menu .menu-select-child li {
     padding: 7px 0px;
     padding-left: 5px;
+    cursor: pointer;
 }
 
 .chart_menu .menu-select-child ul {
