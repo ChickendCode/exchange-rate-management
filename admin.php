@@ -244,6 +244,7 @@ function chart_menu_content() {
             </tr>
         </table>
         <div style="width: 500px">
+            <div id="legend" class="chart-legend"></div>
             <canvas id="chart1"></canvas>
         </div>
     </div>

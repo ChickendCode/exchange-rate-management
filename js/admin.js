@@ -103,23 +103,36 @@ jQuery(document).ready(function($) {
             ctx.canvas.height = 300;
 
             let labels = data.map(element => element.date);
-            let datas = data.map(element => element.rate_buy);
+            let rateBuyData = data.map(element => element.rate_buy);
+            let rateSaleData = data.map(element => element.rate_sale);
 
             var color = Chart.helpers.color;
             var cfg = {
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Tỷ giá mua',
-                        backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
-                        borderColor: window.chartColors.red,
-                        data: datas,
-                        type: 'line',
-                        pointRadius: 0,
-                        fill: false,
-                        lineTension: 0,
-                        borderWidth: 2
-                    }]
+                            label: 'Tỷ giá mua',
+                            backgroundColor: '#1CA1FF',
+                            borderColor: '#1CA1FF',
+                            data: rateBuyData,
+                            type: 'line',
+                            pointRadius: 0,
+                            fill: false,
+                            lineTension: 0,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Tỷ giá bán',
+                            backgroundColor: '#20EAA2',
+                            borderColor: '#20EAA2',
+                            data: rateSaleData,
+                            type: 'line',
+                            pointRadius: 0,
+                            fill: false,
+                            lineTension: 0,
+                            borderWidth: 2
+                        }
+                    ]
                 },
                 options: {
                     animation: {
@@ -166,12 +179,32 @@ jQuery(document).ready(function($) {
                                 return label;
                             }
                         }
+                    },
+                    legend: {
+                        display: false
+                    },
+                    legendCallback: function(chart) {
+                        var text = [];
+                        text.push('<ul class="' + chart.id + '-legend">');
+                        for (var i = 0; i < chart.data.datasets.length; i++) {
+                            text.push('<li><div class="legendValue"><span style="background-color:' + chart.data.datasets[i].backgroundColor + '">&nbsp;&nbsp;&nbsp;&nbsp;</span>');
+
+                            if (chart.data.datasets[i].label) {
+                                text.push('<span class="label">' + chart.data.datasets[i].label + '</span>');
+                            }
+
+                            text.push('</div></li><div class="clear"></div>');
+                        }
+
+                        text.push('</ul>');
+
+                        return text.join('');
                     }
                 }
             };
 
             var chart = new Chart(ctx, cfg);
-            chart.update();
+            $('#legend').prepend(chart.generateLegend());
         }
 
         /**

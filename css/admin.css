@@ -29,3 +29,15 @@
     border: solid 2px #B6DAF4;
     box-shadow: none;
 }
+
+.chart_menu .chart-legend li span {
+    margin-right: 5px;
+}
+
+.chart_menu .chart-legend {
+    margin-bottom: 40px;
+}
+
+.chart_menu .legendValue span:first-child {
+    border-radius: 100%;
+}
