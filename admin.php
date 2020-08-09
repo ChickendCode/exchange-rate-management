@@ -341,9 +341,10 @@ function get_all_rate_history() {
                 date between '".$startDate."'
             and
                 DATE_ADD('".$endDate."',INTERVAL 1 DAY)
+            order by date
         ";
         $rate_history = $wpdb->get_results($sql);
-        wp_send_json( array('status_code'=> 200, 'success' => true, 'message' => $sql, 'data'=> $rate_history), $status_code = 200 );
+        wp_send_json( array('status_code'=> 200, 'success' => true, 'message' => '', 'data'=> $rate_history), $status_code = 200 );
 	
 	} catch (Exception $e) {
 		wp_send_json( array('fail' => false, 'message' => 'Error server'), $status_code = null );
