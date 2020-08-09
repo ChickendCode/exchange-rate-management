@@ -312,10 +312,10 @@ function view_rate_history() {
         $rate_history = get_rate_history_by_date($datepicker);
         // Update data
         if (count($rate_history) > 0) {
-            wp_send_json( array('status_code'=> 200, 'success' => true, 'message' => '', 'data'=> $rate_history[0]), $status_code = 200 );
+            wp_send_json( array('status'=> 200, 'success' => true, 'message' => '', 'data'=> $rate_history[0]), $status_code = 200 );
         
         } else {
-            wp_send_json( array('status_code'=> 400, 'success' => true, 'message' => 'Không tìm thấy dữ liệu',  'data'=> []), $status_code = 404 );
+            wp_send_json( array('status'=> 404, 'success' => true, 'message' => 'Không tìm thấy dữ liệu',  'data'=> []), $status_code = 200 );
         }
 	
 	} catch (Exception $e) {

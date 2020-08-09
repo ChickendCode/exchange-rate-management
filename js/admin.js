@@ -310,8 +310,9 @@ jQuery(document).ready(function($) {
                 data: data,
                 dataType: "json",
                 success: function(data) {
+                    // Set data for input
+                    setDataInput('', '');
                     alert(data.message);
-
                     reloadChart();
                 }
             })
@@ -333,21 +334,32 @@ jQuery(document).ready(function($) {
                 datepicker: datepicker
             };
 
+            // Set data for input
+            setDataInput('', '');
+
             $.ajax({
                 url: exchange_rate_js_vars.ajaxurl,
                 type: "POST",
                 data: data,
                 dataType: "json",
                 success: function(data) {
-                    if (data.status_code == 200) {
-                        $('.chart_menu #rateBuy').val(data.data.rate_buy);
-                        $('.chart_menu #rateSale').val(data.data.rate_sale);
+                    if (data.status == 200) {
+                        // Set data for input
+                        setDataInput(data.data.rate_buy, data.data.rate_sale);
                     } else {
                         alert(data.message);
                     }
                 }
             })
         });
+
+        /**
+         * Set data for input
+         */
+        function setDataInput(rateBuy, rateSale) {
+            $('.chart_menu #rateBuy').val(rateBuy);
+            $('.chart_menu #rateSale').val(rateSale);
+        }
 
         $('.chart_menu .menu-select').click(function() {
             let offset = $(this).offset();
