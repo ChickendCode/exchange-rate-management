@@ -8,6 +8,10 @@ jQuery(document).ready(function($) {
         GET_ALL_RATE_HISTORY: 'get_all_rate_history'
     }
 
+    const FORMAT_DATA = {
+        YYYY_MM_DD: 'YYYY-MM-DD'
+    }
+
     // Area of menu Tỷ giá start ===================================================
     let exchange_rate_menu = $('.exchange_rate_menu');
     let chart_menu = $('.chart_menu');
@@ -86,9 +90,6 @@ jQuery(document).ready(function($) {
 
         function getThisWeekDates() {
             let startDayTemp = moment();
-            const FORMAT_DATA = {
-                YYYY_MM_DD: 'YYYY-MM-DD'
-            }
 
             var day = startDayTemp.day();
             var startDate;
@@ -107,6 +108,39 @@ jQuery(document).ready(function($) {
                 startDate: startDate,
                 endDate: endDate
             }
+        }
+
+        /**
+         * Get range date
+         * 
+         * @param {*} yeah 
+         * @param {*} month 
+         */
+        function getMonthDateRange(yeah, month) {
+            // array is 'year', 'month', 'day', etc
+            var startDate = moment([yeah, month]);
+
+            // Clone the value before .endOf()
+            var endDate = moment(startDate).endOf('month');
+
+            // make sure to call toDate() for plain JavaScript date type
+            return { startDate: startDate.format(FORMAT_DATA.YYYY_MM_DD), endDate: endDate.format(FORMAT_DATA.YYYY_MM_DD) };
+        }
+
+        /**
+         * Get range date this month
+         */
+        function getThisMonthDateRange() {
+            var current = moment();
+            return getMonthDateRange(current.year(), current.month());
+        }
+
+        /**
+         * Get range date last month
+         */
+        function getLastMonthDateRange() {
+            var current = moment();
+            return getMonthDateRange(current.year(), current.month() - 1);
         }
 
         // Get data for char
@@ -133,7 +167,11 @@ jQuery(document).ready(function($) {
         }
 
         function drawChart(data) {
-            var ctx = document.getElementById('chart1').getContext('2d');
+            $('.area-chart').empty();
+            $('.area-chart').append('<canvas id="chart"></canvas>');
+
+            var ctx = document.getElementById('chart').getContext('2d');
+
             ctx.canvas.width = 500;
             ctx.canvas.height = 300;
 
@@ -239,6 +277,7 @@ jQuery(document).ready(function($) {
             };
 
             var chart = new Chart(ctx, cfg);
+            $('#legend').empty();
             $('#legend').prepend(chart.generateLegend());
         }
 
@@ -317,6 +356,18 @@ jQuery(document).ready(function($) {
         $('.chart_menu .menu-select-child li').click(function() {
             $(this).siblings('.active').removeClass('active');
             $(this).addClass('active');
+
+            let data = {};
+            if ($(this).hasClass('this-week')) {
+                data = getThisWeekDates();
+            } else if ($(this).hasClass('this-month')) {
+                data = getThisMonthDateRange();
+            } else if ($(this).hasClass('last-monnt')) {
+                data = getLastMonthDateRange();
+            }
+
+            // Get data for char
+            getDataForChart(data);
         });
 
         $(document).click(function(event) {
