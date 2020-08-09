@@ -327,6 +327,7 @@ function view_rate_history() {
  * Add action process save rate history
  */
 add_action( 'wp_ajax_get_all_rate_history', 'get_all_rate_history' );
+add_action( 'wp_ajax_nopriv_get_all_rate_history', 'get_all_rate_history' );
 function get_all_rate_history() {
 	try {
         global $wpdb;
