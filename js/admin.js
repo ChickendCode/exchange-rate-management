@@ -228,11 +228,14 @@ jQuery(document).ready(function($) {
                             },
                             afterBuildTicks: function(scale, ticks) {
                                 return ticks;
+                            },
+                            gridLines: {
+                                display: false
                             }
                         }],
                         yAxes: [{
                             gridLines: {
-                                drawBorder: false
+                                display: false
                             },
                             scaleLabel: {
                                 display: false
