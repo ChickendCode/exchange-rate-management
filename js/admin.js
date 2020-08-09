@@ -269,6 +269,28 @@ jQuery(document).ready(function($) {
                 }
             })
         });
+
+        $('.chart_menu .menu-select').click(function() {
+            let offset = $(this).offset();
+            $('.menu-select-child').css({
+                top: offset.top,
+                left: offset.left - 100,
+                display: 'block'
+            })
+        });
+
+        $(document).click(function(event) {
+            if (event.target.className == 'menu-select') {
+                return;
+            }
+            closeChildMenu();
+        });
+
+        function closeChildMenu() {
+            $('.menu-select-child').css(
+                'display', 'none'
+            );
+        }
     }
     // Area of menu Biểu đồ end ===================================================
 

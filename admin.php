@@ -244,6 +244,14 @@ function chart_menu_content() {
             </tr>
         </table>
         <div style="width: 500px">
+            <div><p class="menu-select">&#8226;&#8226;&#8226;</p></div>
+            <div class="menu-select-child">
+                <ul>
+                    <li class="active">Tuần này</li>
+                    <li>Tháng này</li>
+                    <li>Tháng trước</li>
+                </ul>
+            </div>
             <div id="legend" class="chart-legend"></div>
             <canvas id="chart1"></canvas>
         </div>
