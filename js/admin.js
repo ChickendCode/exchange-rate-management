@@ -311,6 +311,8 @@ jQuery(document).ready(function($) {
                 dataType: "json",
                 success: function(data) {
                     alert(data.message);
+
+                    reloadChart();
                 }
             })
         });
@@ -360,17 +362,7 @@ jQuery(document).ready(function($) {
             $(this).siblings('.active').removeClass('active');
             $(this).addClass('active');
 
-            let data = {};
-            if ($(this).hasClass('this-week')) {
-                data = getThisWeekDates();
-            } else if ($(this).hasClass('this-month')) {
-                data = getThisMonthDateRange();
-            } else if ($(this).hasClass('last-monnt')) {
-                data = getLastMonthDateRange();
-            }
-
-            // Get data for char
-            getDataForChart(data);
+            reloadChart();
         });
 
         $(document).click(function(event) {
@@ -384,6 +376,24 @@ jQuery(document).ready(function($) {
             $('.menu-select-child').css(
                 'display', 'none'
             );
+        }
+
+        /**
+         * Reload chart
+         */
+        function reloadChart() {
+            let $this = $('.chart_menu .menu-select-child li').filter('.active');
+            let data = {};
+            if ($($this).hasClass('this-week')) {
+                data = getThisWeekDates();
+            } else if ($($this).hasClass('this-month')) {
+                data = getThisMonthDateRange();
+            } else if ($($this).hasClass('last-monnt')) {
+                data = getLastMonthDateRange();
+            }
+
+            // Get data for char
+            getDataForChart(data);
         }
     }
     // Area of menu Biểu đồ end ===================================================
