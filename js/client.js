@@ -219,7 +219,7 @@ jQuery(document).ready(function($) {
         $('.chart_menu .menu-select').click(function() {
             let offset = $(this).offset();
             $('.menu-select-child').css({
-                top: offset.top,
+                top: offset.top + 30,
                 left: offset.left - 100,
                 display: 'block'
             })

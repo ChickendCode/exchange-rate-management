@@ -9,7 +9,7 @@
 
 .chart_menu .legendValue span:first-child {
     border-radius: 100%;
-    font-size: 8px;
+    font-size: 8px !important;
 }
 
 .chart_menu .menu-select {
@@ -32,14 +32,14 @@
 }
 
 .chart_menu .menu-select-child ul {
-    list-style-type: none;
-}
-
-.chart_menu .menu-select-child ul {
     border: solid 1px lightgray;
 }
 
 .chart_menu .menu-select-child li.active {
     background: #1991EB;
     color: white;
+}
+
+.chart_menu ul {
+    list-style-type: none;
 }
