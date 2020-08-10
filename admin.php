@@ -200,7 +200,7 @@ function money_change_vn_cn_menu_content() {
             <h3> Quãng tính </h3>
             <h4> Chia ra các quãng tính để áp dụng hệ số khác nhau cho công thức tính phí </h4>
             <div class="button-tool">
-                <button style="float:left">Thêm quãng</button>
+                <button style="float:left" id="addRange">Thêm quãng</button>
                 <button style="float:right">Xóa toàn bộ</button>
             </div>
             

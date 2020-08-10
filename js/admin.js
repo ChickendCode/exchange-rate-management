@@ -12,9 +12,12 @@ jQuery(document).ready(function($) {
         YYYY_MM_DD: 'YYYY-MM-DD'
     }
 
+    var listRange = [];
+
     // Area of menu Tỷ giá start ===================================================
     let exchange_rate_menu = $('.exchange_rate_menu');
     let chart_menu = $('.chart_menu');
+    let money_change_vn_cn = $('.money_change_vn_cn');
 
     if (exchange_rate_menu.length > 0) {
         calRateBuy();
@@ -410,4 +413,52 @@ jQuery(document).ready(function($) {
     }
     // Area of menu Biểu đồ end ===================================================
 
+
+    // Area of menu VNĐ -> CHY start ===================================================
+    else if (money_change_vn_cn.length > 0) {
+        $('#addRange').click(function() {
+            let row = {
+                from: 0,
+                to: 3000,
+                chargeTransaction: 4000
+            };
+
+            listRange.push(row);
+
+            renderRow();
+        });
+
+        function renderRow() {
+            $('.money_change_vn_cn table').empty();
+            let htmlHeader = `
+                <tr>
+                    <td>STT</td>
+                    <td>Từ</td>
+                    <td>Đến</td>
+                    <td>Phí giao dịch</td>
+                    <td></td>
+                </tr>
+            `;
+
+            let htmlRow = '';
+
+            for (let index = 0; index < listRange.length; index++) {
+                const element = listRange[index];
+                htmlRow += `
+                    <tr>
+                        <td>` + (index + 1) + `</td>
+                        <td>` + element.from + `</td>
+                        <td><input type="text" value="` + element.to + `"></td>
+                        <td><input type="text" value="` + element.chargeTransaction + `"></td>
+                        <td>x</td>
+                    </tr>
+                `;
+            }
+
+            $('.money_change_vn_cn table').append(htmlHeader);
+            $('.money_change_vn_cn table').append(htmlRow);
+        }
+    }
+
+    // Area of menu VNĐ -> CHY end ===================================================
 });
