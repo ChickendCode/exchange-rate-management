@@ -195,9 +195,32 @@ function money_change_vn_cn_menu_admin() {
 
 function money_change_vn_cn_menu_content() {
     ?>
-        <h1>
-            <?php esc_html_e( 'DV đổi tiền VN-CN', 'my-plugin-textdomain' ); ?>
-        </h1>
+        <div class="money_change_vn_cn">  
+            <h1> Cấu hình dịch vụ VNĐ -> CHY </h1>
+            <h3> Quãng tính </h3>
+            <h4> Chia ra các quãng tính để áp dụng hệ số khác nhau cho công thức tính phí </h4>
+            <div class="button-tool">
+                <button style="float:left">Thêm quãng</button>
+                <button style="float:right">Xóa toàn bộ</button>
+            </div>
+            
+            <table>
+                <tr>
+                    <td>STT</td>
+                    <td>Từ</td>
+                    <td>Đến</td>
+                    <td>Phí giao dịch</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>0</td>
+                    <td><input type="text" name="" id=""></td>
+                    <td><input type="text" name="" id=""></td>
+                    <td>x</td>
+                </tr>
+            </table>
+        </div>
     <?php
 }
 

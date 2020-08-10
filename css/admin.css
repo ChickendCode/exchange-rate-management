@@ -15,7 +15,9 @@
 }
 
 .chart_menu button,
-.exchange_rate_menu button {
+.exchange_rate_menu button,
+.money_change_vn_cn button,
+.money_change_cn_vn button {
     height: 30px;
     color: #639DBC;
     border: solid 1px;
@@ -25,7 +27,9 @@
 }
 
 .chart_menu input:focus,
-.exchange_rate_menu input:focus {
+.exchange_rate_menu input:focus,
+.money_change_vn_cn input:focus,
+.money_change_cn_vn input:focus {
     border: solid 2px #B6DAF4;
     box-shadow: none;
 }
@@ -69,4 +73,40 @@
 .chart_menu .menu-select-child li.active {
     background: #1991EB;
     color: white;
+}
+
+.money_change_vn_cn {
+    padding-right: 15px;
+}
+
+.money_change_vn_cn .button-tool {
+    height: 50px;
+}
+
+.money_change_vn_cn table {
+    width: 100%;
+    border-top: solid 1px gray;
+}
+
+.money_change_vn_cn table tr:nth-child(1) td {
+    font-size: 15px;
+}
+
+.money_change_vn_cn table tr td {
+    padding-top: 10px;
+}
+
+.money_change_vn_cn table tr td:nth-child(1) {
+    width: 10%;
+}
+
+.money_change_vn_cn table tr td:nth-child(2),
+.money_change_vn_cn table tr td:nth-child(3),
+.money_change_vn_cn table tr td:nth-child(4) {
+    width: 25%;
+}
+
+.money_change_vn_cn table tr td:nth-child(5) {
+    width: 15%;
+    text-align: center;
 }
