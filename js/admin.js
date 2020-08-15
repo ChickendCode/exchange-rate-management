@@ -25,6 +25,11 @@ jQuery(document).ready(function($) {
         EXCHANGE_RATE_MENU: '.exchange_rate_menu'
     }
 
+    const UNIT = {
+        MONEY: 'money',
+        PERCENT: 'percent'
+    }
+
     var listRange = [];
 
     // Area of menu Tỷ giá start ===================================================
@@ -487,9 +492,19 @@ jQuery(document).ready(function($) {
                     <td><input data-id="range_to" type="number" value="` + element.range_to + `"></td>
                     <td><input data-id="change_transaction" type="number" value="` + element.change_transaction + `"></td>
                     <td>
-                        <select class="unit" data-id="unit">
-                            <option value="money">vnd</option>
-                            <option value="percent">%</option>
+                        <select class="unit" data-id="unit">`;
+            if (element.unit == UNIT.MONEY) {
+                htmlRow += `
+                            <option value="` + UNIT.MONEY + `" selected>vnd</option>
+                            <option value="` + UNIT.PERCENT + `">%</option>
+                            `;
+            } else {
+                htmlRow += `
+                            <option value="` + UNIT.MONEY + `">vnd</option>
+                            <option value="` + UNIT.PERCENT + `" selected>%</option>
+                            `;
+            }
+            htmlRow += `            
                         </select>
                     </td>
                     <td id="deleteRow" class="delete">x</td>
@@ -549,7 +564,7 @@ jQuery(document).ready(function($) {
             let row = {
                 range_to: '',
                 change_transaction: '',
-                unit: 'money',
+                unit: UNIT.MONEY,
                 type: type
             };
 
@@ -565,6 +580,10 @@ jQuery(document).ready(function($) {
 
         // Event click button save range
         $(className + ' #saveRange').click(function() {
+            let result = confirm("Bạn có chắc chắn muốn lưu không?");
+            if (!result) {
+                return;
+            }
             $.ajax({
                 url: exchange_rate_js_vars.ajaxurl,
                 type: "POST",
@@ -578,6 +597,12 @@ jQuery(document).ready(function($) {
                     alert(res.message);
                 }
             })
+        });
+
+        // Event click button delete all range
+        $(className + ' #deleteAllRange').click(function() {
+            listRange = [];
+            renderRow(className);
         });
     }
 });
