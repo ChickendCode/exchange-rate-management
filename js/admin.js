@@ -570,7 +570,8 @@ jQuery(document).ready(function($) {
                 type: "POST",
                 data: {
                     action: ACTION.SAVE_SERVICE_CHANGE_MONEY,
-                    listRange: listRange
+                    listRange: listRange,
+                    type: type
                 },
                 dataType: "json",
                 success: function(res) {

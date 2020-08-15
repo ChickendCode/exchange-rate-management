@@ -247,7 +247,8 @@ function get_all_service_change_money() {
         $sql = "
             select * from wp_service_change_money
             where 
-                type = '".$type."';
+                type = '".$type."'
+            order by id
         ";
         $service_change_money = $wpdb->get_results($sql);
         wp_send_json( array('status_code'=> 200, 'success' => true, 'message' => '', 'data'=> $service_change_money), $status_code = 200 );
@@ -264,27 +265,31 @@ add_action( 'wp_ajax_save_service_change_money', 'save_service_change_money' );
 function save_service_change_money() {
 	try {
 		global $wpdb; // this is how you get access to the database
-		$listRange = $_POST['listRange'];
+        $listRange = $_POST['listRange'];
+        $type = $_POST['type'];
         $table_name = 'wp_service_change_money';
         
-        $query = "DELETE FROM `wp_service_change_money` WHERE type='". $listRange[0]['type'] ."'";
+        $query = "DELETE FROM `wp_service_change_money` WHERE type='". $type ."'";
         $wpdb->query( $query );
 
-		// Create query insert
-		$query = 'INSERT INTO '. $table_name .' (`range_from`, `range_to`, `change_transaction`, `unit`, `type`) VALUES ';
-		for ($i=0; $i < count($listRange); $i++) {
-            $row_data = " ( '". $listRange[$i]['range_from'] . "', '" . $listRange[$i]['range_to'] . "', '". $listRange[$i]['changeTransaction'] ."', '". $listRange[$i]['unit'] ."', '". $listRange[$i]['type']. "' ) ";
-            
-            if ($i < count($listRange) - 1) {
-				$query .= $row_data . ", ";
-			} else {
-				$query .= $row_data;
-			}
-		}
+        // Create query insert
+        if (count($listRange) > 0) {
+            $query = 'INSERT INTO '. $table_name .' (`range_from`, `range_to`, `change_transaction`, `unit`, `type`) VALUES ';
+            for ($i=0; $i < count($listRange); $i++) {
+                $row_data = " ( '". $listRange[$i]['range_from'] . "', '" . $listRange[$i]['range_to'] . "', '". $listRange[$i]['change_transaction'] ."', '". $listRange[$i]['unit'] ."', '". $listRange[$i]['type']. "' ) ";
+                
+                if ($i < count($listRange) - 1) {
+                    $query .= $row_data . ", ";
+                } else {
+                    $query .= $row_data;
+                }
+            }
+    
+            $wpdb->query( $query );
+        }
+		
 
-		$wpdb->query( $query );
-
-		wp_send_json( array('success' => true, 'message' => 'Lưu thành công', 'sql'=> $query), $status_code = null );
+		wp_send_json( array('success' => true, 'message' => 'Lưu thành công', 'sql'=> $listRange), $status_code = null );
 	
 	} catch (Exception $e) {
 		wp_send_json( array('success' => false, 'message' => "Lưu thất bại"), $status_code = null );
