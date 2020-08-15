@@ -200,7 +200,7 @@ function get_rate() {
 }
 // ================================Area of menu Tỷ giá end ================================
 
-// ================================Area of menu DV đổi tiền VN-CN start================================
+// ================================Area of menu DV đổi tiền VN-CN start====================
 function money_change_vn_cn_menu_admin() {
     add_menu_page(
         __( 'DV đổi tiền VN-CN', 'doi-tien-viet-trung' ),
@@ -215,7 +215,7 @@ function money_change_vn_cn_menu_admin() {
 
 function money_change_vn_cn_menu_content() {
     ?>
-        <div class="money_change_vn_cn">  
+        <div class="money_change_vn_cn common-css">  
             <h1> Cấu hình dịch vụ VNĐ -> CHY </h1>
             <h3> Quãng tính </h3>
             <h4> Chia ra các quãng tính để áp dụng hệ số khác nhau cho công thức tính phí </h4>
@@ -296,6 +296,77 @@ function save_service_change_money() {
 	}
 }
 // ================================Area of menu DV đổi tiền VN-CN end================================
+
+// ================================Area of menu DV đổi tiền CN-VN start================================
+function money_change_cn_vn_menu_admin() {
+    add_menu_page(
+        __( 'DV đổi tiền CN-VN', 'doi-tien-trung-viet' ),
+        __( 'DV đổi tiền CN-VN', 'doi-tien-trung-viet' ),
+        'manage_options',
+        'doi-tien-trung-viet',
+        'money_change_cn_vn_menu_content',
+        'dashicons-schedule',
+        3
+    );
+}
+
+function money_change_cn_vn_menu_content() {
+    ?>
+        <div class="money_change_cn_vn common-css">  
+            <h1> Cấu hình dịch vụ CHY -> VNĐ</h1>
+            <h3> Quãng tính </h3>
+            <h4> Chia ra các quãng tính để áp dụng hệ số khác nhau cho công thức tính phí </h4>
+            <div class="button-tool">
+                <button style="float:left" id="addRange">Thêm quãng</button>
+                <button style="float:right;margin-left:10px" id="saveRange">Lưu</button>
+                <button style="float:right" id="deleteAllRange">Xóa toàn bộ</button>
+            </div>
+            
+            <table>
+            </table>
+        </div>
+    <?php
+}
+
+add_action( 'admin_menu', 'money_change_cn_vn_menu_admin' );
+
+// ================================Area of menu DV đổi tiền CN-VN end================================
+
+
+// ================================Area of menu DV thanh toán hộ start================================
+function money_change_tth_menu_admin() {
+    add_menu_page(
+        __( 'DV Thanh Toán Hộ', 'thanh-toan-ho' ),
+        __( 'DV Thanh Toán Hộ', 'thanh-toan-ho' ),
+        'manage_options',
+        'thanh-toan-ho',
+        'money_change_tth_menu_content',
+        'dashicons-schedule',
+        3
+    );
+}
+
+function money_change_tth_menu_content() {
+    ?>
+        <div class="money_change_tth common-css">  
+            <h1> DỊCH VỤ THANH TOÁN HỘ </h1>
+            <h3> Quãng tính </h3>
+            <h4> Chia ra các quãng tính để áp dụng hệ số khác nhau cho công thức tính phí </h4>
+            <div class="button-tool">
+                <button style="float:left" id="addRange">Thêm quãng</button>
+                <button style="float:right;margin-left:10px" id="saveRange">Lưu</button>
+                <button style="float:right" id="deleteAllRange">Xóa toàn bộ</button>
+            </div>
+            
+            <table>
+            </table>
+        </div>
+    <?php
+}
+
+add_action( 'admin_menu', 'money_change_tth_menu_admin' );
+
+// ================================Area of menu DV thanh toán hộ end================================
 
 // ================================Area of menu Biểu đồ start================================
 function chart_menu_admin() {

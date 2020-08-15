@@ -22,6 +22,8 @@ jQuery(document).ready(function($) {
 
     const CLASS_NAME = {
         MONEY_CHANGE_VN_CN: '.money_change_vn_cn',
+        MONEY_CHANGE_CN_VN: '.money_change_cn_vn',
+        MONEY_CHANGE_TTH: '.money_change_tth',
         EXCHANGE_RATE_MENU: '.exchange_rate_menu'
     }
 
@@ -36,6 +38,8 @@ jQuery(document).ready(function($) {
     let exchange_rate_menu = $(CLASS_NAME.EXCHANGE_RATE_MENU);
     let chart_menu = $('.chart_menu');
     let money_change_vn_cn = $(CLASS_NAME.MONEY_CHANGE_VN_CN);
+    let money_change_cn_vn = $(CLASS_NAME.MONEY_CHANGE_CN_VN);
+    let money_change_tth = $(CLASS_NAME.MONEY_CHANGE_TTH);
 
     if (exchange_rate_menu.length > 0) {
         calRateBuy();
@@ -442,6 +446,28 @@ jQuery(document).ready(function($) {
     }
 
     // Area of menu VNĐ -> CHY end ===================================================
+
+    // Area of menu VNĐ -> CHY start ===================================================
+    else if (money_change_cn_vn.length > 0) {
+        // Bind event click button
+        bindEventButton(CLASS_NAME.MONEY_CHANGE_CN_VN, TYPE.CN_VN);
+
+        // Get init data
+        getSericeChangeMoney(TYPE.CN_VN, renderRow.bind(this, CLASS_NAME.MONEY_CHANGE_CN_VN));
+    }
+
+    // Area of menu VNĐ -> CHY end ===================================================
+
+    // Area of menu Dich vụ thanh toán hộ start ======================================
+    else if (money_change_tth.length > 0) {
+        // Bind event click button
+        bindEventButton(CLASS_NAME.MONEY_CHANGE_TTH, TYPE.TTH);
+
+        // Get init data
+        getSericeChangeMoney(TYPE.TTH, renderRow.bind(this, CLASS_NAME.MONEY_CHANGE_TTH));
+    }
+
+    // Area of menu Dich vụ thanh toán hộ end ===========================================
 
     /**
      * Get data service change money
