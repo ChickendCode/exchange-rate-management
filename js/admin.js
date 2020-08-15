@@ -5,19 +5,31 @@ jQuery(document).ready(function($) {
         SAVE_RATE: 'save_rate',
         SAVE_RATE_HISTORY: 'save_rate_history',
         VIEW_RATE_HISTORY: 'view_rate_history',
-        GET_ALL_RATE_HISTORY: 'get_all_rate_history'
+        GET_ALL_RATE_HISTORY: 'get_all_rate_history',
+        GET_ALL_SERVICE_CHANGE_MONEY: 'get_all_service_change_money'
     }
 
     const FORMAT_DATA = {
         YYYY_MM_DD: 'YYYY-MM-DD'
     }
 
+    const TYPE = {
+        VN_CN: 'VN_CN',
+        CN_VN: 'CN_VN',
+        TTH: 'TTH'
+    }
+
+    const CLASS_NAME = {
+        MONEY_CHANGE_VN_CN: '.money_change_vn_cn',
+        EXCHANGE_RATE_MENU: '.exchange_rate_menu'
+    }
+
     var listRange = [];
 
     // Area of menu Tỷ giá start ===================================================
-    let exchange_rate_menu = $('.exchange_rate_menu');
+    let exchange_rate_menu = $(CLASS_NAME.EXCHANGE_RATE_MENU);
     let chart_menu = $('.chart_menu');
-    let money_change_vn_cn = $('.money_change_vn_cn');
+    let money_change_vn_cn = $(CLASS_NAME.MONEY_CHANGE_VN_CN);
 
     if (exchange_rate_menu.length > 0) {
         calRateBuy();
@@ -37,8 +49,8 @@ jQuery(document).ready(function($) {
          */
         function calRateBuy() {
             // priceBuy = rate - rateBuy
-            let priceBuy = $('.exchange_rate_menu #rate').val() - $('.exchange_rate_menu #rateBuy').val();
-            $('.exchange_rate_menu #priceBuy').text(priceBuy);
+            let priceBuy = $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rate').val() - $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rateBuy').val();
+            $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #priceBuy').text(priceBuy);
         }
 
         /**
@@ -46,17 +58,17 @@ jQuery(document).ready(function($) {
          */
         function calRateSale() {
             // priceSale = rate - rateSale
-            let priceSale = $('.exchange_rate_menu #rate').val() - $('.exchange_rate_menu #rateSale').val();
-            $('.exchange_rate_menu #priceSale').text(priceSale);
+            let priceSale = $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rate').val() - $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rateSale').val();
+            $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #priceSale').text(priceSale);
         }
 
         /**
          * Event save rate
          */
-        $('.exchange_rate_menu #saveRate').click(function() {
-            let rate = $('.exchange_rate_menu #rate').val();
-            let rateBuy = $('.exchange_rate_menu #rateBuy').val();
-            let rateSale = $('.exchange_rate_menu #rateSale').val();
+        $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #saveRate').click(function() {
+            let rate = $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rate').val();
+            let rateBuy = $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rateBuy').val();
+            let rateSale = $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rateSale').val();
 
             if (rate == '' || rateBuy == '' || rateSale == '') {
                 alert('Hãy nhập đầy đủ thông tin');
@@ -416,49 +428,114 @@ jQuery(document).ready(function($) {
 
     // Area of menu VNĐ -> CHY start ===================================================
     else if (money_change_vn_cn.length > 0) {
+        // Render table when init screen
+        renderRow();
+
         $('#addRange').click(function() {
             let row = {
-                from: 0,
-                to: 3000,
-                chargeTransaction: 4000
+                to: '',
+                chargeTransaction: '',
+                unit: 'money'
             };
 
-            listRange.push(row);
-
-            renderRow();
-        });
-
-        function renderRow() {
-            $('.money_change_vn_cn table').empty();
-            let htmlHeader = `
-                <tr>
-                    <td>STT</td>
-                    <td>Từ</td>
-                    <td>Đến</td>
-                    <td>Phí giao dịch</td>
-                    <td></td>
-                </tr>
-            `;
-
-            let htmlRow = '';
-
-            for (let index = 0; index < listRange.length; index++) {
-                const element = listRange[index];
-                htmlRow += `
-                    <tr>
-                        <td>` + (index + 1) + `</td>
-                        <td>` + element.from + `</td>
-                        <td><input type="text" value="` + element.to + `"></td>
-                        <td><input type="text" value="` + element.chargeTransaction + `"></td>
-                        <td>x</td>
-                    </tr>
-                `;
+            if (listRange.length == 0) {
+                row.from = 0;
+            } else {
+                row.from = listRange[listRange.length - 1].to;
             }
 
-            $('.money_change_vn_cn table').append(htmlHeader);
-            $('.money_change_vn_cn table').append(htmlRow);
-        }
+            listRange.push(row);
+            renderRow(CLASS_NAME.MONEY_CHANGE_VN_CN);
+        });
+
+        // Get init data
+        getSericeChangeMoney(TYPE.VN_CN, renderRow.bind(this, CLASS_NAME.MONEY_CHANGE_VN_CN));
     }
 
     // Area of menu VNĐ -> CHY end ===================================================
+
+    /**
+     * Get data service change money
+     */
+    function getSericeChangeMoney(type, callbacks) {
+        // Get data for char
+        $.ajax({
+            url: exchange_rate_js_vars.ajaxurl,
+            type: "GET",
+            data: {
+                action: ACTION.GET_ALL_SERVICE_CHANGE_MONEY,
+                type: type
+            },
+            dataType: "json",
+            success: function(res) {
+                listRange = res.data;
+                callbacks();
+            }
+        })
+    }
+
+    /**
+     * Render list in table
+     * 
+     * @param {*} className 
+     */
+    function renderRow(className) {
+        $(className + ' table').empty();
+        let htmlHeader = `
+            <tr>
+                <td>STT</td>
+                <td>Từ</td>
+                <td>Đến</td>
+                <td>Phí giao dịch</td>
+                <td>Đơn vị</td>
+                <td></td>
+            </tr>
+        `;
+
+        let htmlRow = '';
+
+        for (let index = 0; index < listRange.length; index++) {
+            const element = listRange[index];
+            htmlRow += `
+                <tr data-index="` + index + `">
+                    <td>` + (index + 1) + `</td>
+                    <td data-id="from">` + element.from + `</td>
+                    <td><input data-id="to" type="number" value="` + element.to + `"></td>
+                    <td><input data-id="chargeTransaction" type="number" value="` + element.chargeTransaction + `"></td>
+                    <td>
+                        <select data-id="unit">
+                            <option value="money">vnd</option>
+                            <option value="percent">%</option>
+                        </select>
+                    </td>
+                    <td class="delete">x</td>
+                </tr>
+            `;
+        }
+
+        $(className + ' table').append(htmlHeader);
+        $(className + ' table').append(htmlRow);
+
+        // Bind event change input in table
+        bindEventInput(className);
+    }
+
+    /**
+     * Bind event change input in table
+     */
+    function bindEventInput(className) {
+        $(className + ' table input').keyup(function() {
+            let prop = $(this).data('id');
+            let value = $(this).val();
+            let index = $(this).closest('tr').data('index');
+            listRange[index][prop] = value;
+
+            if (prop == 'to' && index < (listRange.length - 1)) {
+                listRange[index + 1]['from'] = value;
+                $(className + ' table tr[data-index="' + (index + 1) + '"] td[data-id="from"]').text(value);
+            }
+
+            return false;
+        });
+    }
 });

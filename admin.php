@@ -71,6 +71,26 @@ function create_plugin_database_table() {
         require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
         dbDelta($sql);
     }
+
+    // Create table service_change_money
+    $wp_service_change_money = 'wp_service_change_money';
+
+    #Check to see if the table exists already, if not, then create it
+    if($wpdb->get_var( "show tables like wp_rate_history" ) != $wp_service_change_money) 
+    {
+
+        $sql = "CREATE TABLE `". $wp_service_change_money . "` ( ";
+        $sql .= "  `id`  int(11)   NOT NULL auto_increment, ";
+        $sql .= "  `range_from`  int(128)   NOT NULL, ";
+        $sql .= "  `range_to`  int(128)   NOT NULL, ";
+        $sql .= "  `change_transaction`  int(128)   NOT NULL, ";
+        $sql .= "  `unit`  int(128)   NOT NULL, ";
+        $sql .= "  `type`  int(128)   NOT NULL, ";
+        $sql .= "  PRIMARY KEY `rate_history_id` (`id`) "; 
+        $sql .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ; ";
+        require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
+        dbDelta($sql);
+    }
 }
 
  register_activation_hook( __FILE__, 'create_plugin_database_table' );
@@ -201,30 +221,41 @@ function money_change_vn_cn_menu_content() {
             <h4> Chia ra các quãng tính để áp dụng hệ số khác nhau cho công thức tính phí </h4>
             <div class="button-tool">
                 <button style="float:left" id="addRange">Thêm quãng</button>
+                <button style="float:right;margin-left:10px">Lưu</button>
                 <button style="float:right">Xóa toàn bộ</button>
             </div>
             
             <table>
-                <tr>
-                    <td>STT</td>
-                    <td>Từ</td>
-                    <td>Đến</td>
-                    <td>Phí giao dịch</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>0</td>
-                    <td><input type="text" name="" id=""></td>
-                    <td><input type="text" name="" id=""></td>
-                    <td>x</td>
-                </tr>
             </table>
         </div>
     <?php
 }
 
 add_action( 'admin_menu', 'money_change_vn_cn_menu_admin' );
+
+/**
+ * Add action process save rate history
+ */
+add_action( 'wp_ajax_get_all_service_change_money', 'get_all_service_change_money' );
+add_action( 'wp_ajax_nopriv_get_all_service_change_money', 'get_all_service_change_money' );
+function get_all_service_change_money() {
+	try {
+        global $wpdb;
+
+        $type = $_POST['type'];
+
+        $sql = "
+            select * from wp_service_change_money
+            where 
+                type = '".$type."';
+        ";
+        $service_change_money = $wpdb->get_results($sql);
+        wp_send_json( array('status_code'=> 200, 'success' => true, 'message' => '', 'data'=> $service_change_money), $status_code = 200 );
+	
+	} catch (Exception $e) {
+		wp_send_json( array('fail' => false, 'message' => 'Error server'), $status_code = null );
+	}
+}
 // ================================Area of menu DV đổi tiền VN-CN end================================
 
 // ================================Area of menu Biểu đồ start================================
