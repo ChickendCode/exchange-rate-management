@@ -273,7 +273,7 @@ function save_service_change_money() {
 		// Create query insert
 		$query = 'INSERT INTO '. $table_name .' (`range_from`, `range_to`, `change_transaction`, `unit`, `type`) VALUES ';
 		for ($i=0; $i < count($listRange); $i++) {
-            $row_data = " ( '". $listRange[$i]['from'] . "', '" . $listRange[$i]['to'] . "', '". $listRange[$i]['changeTransaction'] ."', '". $listRange[$i]['unit'] ."', '". $listRange[$i]['type']. "' ) ";
+            $row_data = " ( '". $listRange[$i]['range_from'] . "', '" . $listRange[$i]['range_to'] . "', '". $listRange[$i]['changeTransaction'] ."', '". $listRange[$i]['unit'] ."', '". $listRange[$i]['type']. "' ) ";
             
             if ($i < count($listRange) - 1) {
 				$query .= $row_data . ", ";

@@ -492,7 +492,7 @@ jQuery(document).ready(function($) {
                             <option value="percent">%</option>
                         </select>
                     </td>
-                    <td class="delete">x</td>
+                    <td id="deleteRow" class="delete">x</td>
                 </tr>
             `;
         }
@@ -514,7 +514,7 @@ jQuery(document).ready(function($) {
             let index = $(this).closest('tr').data('index');
             listRange[index][prop] = value;
 
-            if (prop == 'to' && index < (listRange.length - 1)) {
+            if (prop == 'range_to' && index < (listRange.length - 1)) {
                 listRange[index + 1]['range_from'] = value;
                 $(className + ' table tr[data-index="' + (index + 1) + '"] td[data-id="range_from"]').text(value);
             }
@@ -529,6 +529,14 @@ jQuery(document).ready(function($) {
             listRange[index][prop] = value;
 
             return false;
+        });
+
+        // Event click button delete row
+        $(className + ' #deleteRow').click(function() {
+            let index = $(this).closest('tr').data('index');
+
+            listRange.splice(index, 1);
+            renderRow(className);
         });
     }
 
