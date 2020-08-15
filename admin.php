@@ -105,7 +105,7 @@ function create_plugin_database_table() {
         'manage_options',
         'ty-gia',
         'exchange_rate_menu_content',
-        'dashicons-schedule',
+        'dashicons-migrate',
         3
     );
 }
@@ -208,7 +208,7 @@ function money_change_vn_cn_menu_admin() {
         'manage_options',
         'doi-tien-viet-trung',
         'money_change_vn_cn_menu_content',
-        'dashicons-schedule',
+        'dashicons-money',
         3
     );
 }
@@ -305,7 +305,7 @@ function money_change_cn_vn_menu_admin() {
         'manage_options',
         'doi-tien-trung-viet',
         'money_change_cn_vn_menu_content',
-        'dashicons-schedule',
+        'dashicons-money',
         3
     );
 }
@@ -341,7 +341,7 @@ function money_change_tth_menu_admin() {
         'manage_options',
         'thanh-toan-ho',
         'money_change_tth_menu_content',
-        'dashicons-schedule',
+        'dashicons-admin-multisite',
         3
     );
 }
@@ -376,7 +376,7 @@ function chart_menu_admin() {
         'manage_options',
         'bieu-do',
         'chart_menu_content',
-        'dashicons-schedule',
+        'dashicons-chart-line',
         3
     );
 }
