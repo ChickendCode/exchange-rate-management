@@ -6,7 +6,8 @@ jQuery(document).ready(function($) {
         SAVE_RATE_HISTORY: 'save_rate_history',
         VIEW_RATE_HISTORY: 'view_rate_history',
         GET_ALL_RATE_HISTORY: 'get_all_rate_history',
-        GET_ALL_SERVICE_CHANGE_MONEY: 'get_all_service_change_money'
+        GET_ALL_SERVICE_CHANGE_MONEY: 'get_all_service_change_money',
+        SAVE_SERVICE_CHANGE_MONEY: 'save_service_change_money'
     }
 
     const FORMAT_DATA = {
@@ -482,11 +483,11 @@ jQuery(document).ready(function($) {
             htmlRow += `
                 <tr data-index="` + index + `">
                     <td>` + (index + 1) + `</td>
-                    <td data-id="from">` + element.from + `</td>
-                    <td><input data-id="to" type="number" value="` + element.to + `"></td>
-                    <td><input data-id="chargeTransaction" type="number" value="` + element.chargeTransaction + `"></td>
+                    <td data-id="range_from">` + element.range_from + `</td>
+                    <td><input data-id="range_to" type="number" value="` + element.range_to + `"></td>
+                    <td><input data-id="change_transaction" type="number" value="` + element.change_transaction + `"></td>
                     <td>
-                        <select data-id="unit">
+                        <select class="unit" data-id="unit">
                             <option value="money">vnd</option>
                             <option value="percent">%</option>
                         </select>
@@ -500,13 +501,13 @@ jQuery(document).ready(function($) {
         $(className + ' table').append(htmlRow);
 
         // Bind event change input in table
-        bindEventChangeInput(className);
+        bindEventElementInTable(className);
     }
 
     /**
      * Bind event change input in table
      */
-    function bindEventChangeInput(className) {
+    function bindEventElementInTable(className) {
         $(className + ' table input').keyup(function() {
             let prop = $(this).data('id');
             let value = $(this).val();
@@ -514,9 +515,18 @@ jQuery(document).ready(function($) {
             listRange[index][prop] = value;
 
             if (prop == 'to' && index < (listRange.length - 1)) {
-                listRange[index + 1]['from'] = value;
-                $(className + ' table tr[data-index="' + (index + 1) + '"] td[data-id="from"]').text(value);
+                listRange[index + 1]['range_from'] = value;
+                $(className + ' table tr[data-index="' + (index + 1) + '"] td[data-id="range_from"]').text(value);
             }
+
+            return false;
+        });
+
+        $(className + ' table select.unit').change(function() {
+            let prop = $(this).data('id');
+            let value = $(this).val();
+            let index = $(this).closest('tr').data('index');
+            listRange[index][prop] = value;
 
             return false;
         });
@@ -526,22 +536,39 @@ jQuery(document).ready(function($) {
      * Bind event click button
      */
     function bindEventButton(className, type) {
+        // Event add new row on table
         $(className + ' #addRange').click(function() {
             let row = {
-                to: '',
-                chargeTransaction: '',
+                range_to: '',
+                change_transaction: '',
                 unit: 'money',
                 type: type
             };
 
             if (listRange.length == 0) {
-                row.from = 0;
+                row.range_from = 0;
             } else {
-                row.from = listRange[listRange.length - 1].to;
+                row.range_from = listRange[listRange.length - 1].range_to;
             }
 
             listRange.push(row);
             renderRow(className);
+        });
+
+        // Event click button save range
+        $(className + ' #saveRange').click(function() {
+            $.ajax({
+                url: exchange_rate_js_vars.ajaxurl,
+                type: "POST",
+                data: {
+                    action: ACTION.SAVE_SERVICE_CHANGE_MONEY,
+                    listRange: listRange
+                },
+                dataType: "json",
+                success: function(res) {
+                    alert(res.message);
+                }
+            })
         });
     }
 });

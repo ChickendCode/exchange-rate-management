@@ -76,7 +76,7 @@ function create_plugin_database_table() {
     $wp_service_change_money = 'wp_service_change_money';
 
     #Check to see if the table exists already, if not, then create it
-    if($wpdb->get_var( "show tables like wp_rate_history" ) != $wp_service_change_money) 
+    if($wpdb->get_var( "show tables like wp_service_change_money" ) != $wp_service_change_money) 
     {
 
         $sql = "CREATE TABLE `". $wp_service_change_money . "` ( ";
@@ -84,8 +84,8 @@ function create_plugin_database_table() {
         $sql .= "  `range_from`  int(128)   NOT NULL, ";
         $sql .= "  `range_to`  int(128)   NOT NULL, ";
         $sql .= "  `change_transaction`  int(128)   NOT NULL, ";
-        $sql .= "  `unit`  int(128)   NOT NULL, ";
-        $sql .= "  `type`  int(128)   NOT NULL, ";
+        $sql .= "  `unit`  varchar(128)   NOT NULL, ";
+        $sql .= "  `type`  varchar(128)   NOT NULL, ";
         $sql .= "  PRIMARY KEY `rate_history_id` (`id`) "; 
         $sql .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ; ";
         require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
@@ -242,7 +242,7 @@ function get_all_service_change_money() {
 	try {
         global $wpdb;
 
-        $type = $_POST['type'];
+        $type = $_GET['type'];
 
         $sql = "
             select * from wp_service_change_money
@@ -254,6 +254,40 @@ function get_all_service_change_money() {
 	
 	} catch (Exception $e) {
 		wp_send_json( array('fail' => false, 'message' => 'Error server'), $status_code = null );
+	}
+}
+
+/**
+ * Add action process save service change money
+ */
+add_action( 'wp_ajax_save_service_change_money', 'save_service_change_money' );
+function save_service_change_money() {
+	try {
+		global $wpdb; // this is how you get access to the database
+		$listRange = $_POST['listRange'];
+        $table_name = 'wp_service_change_money';
+        
+        $query = "DELETE FROM `wp_service_change_money` WHERE type='". $listRange[0]['type'] ."'";
+        $wpdb->query( $query );
+
+		// Create query insert
+		$query = 'INSERT INTO '. $table_name .' (`range_from`, `range_to`, `change_transaction`, `unit`, `type`) VALUES ';
+		for ($i=0; $i < count($listRange); $i++) {
+            $row_data = " ( '". $listRange[$i]['from'] . "', '" . $listRange[$i]['to'] . "', '". $listRange[$i]['changeTransaction'] ."', '". $listRange[$i]['unit'] ."', '". $listRange[$i]['type']. "' ) ";
+            
+            if ($i < count($listRange) - 1) {
+				$query .= $row_data . ", ";
+			} else {
+				$query .= $row_data;
+			}
+		}
+
+		$wpdb->query( $query );
+
+		wp_send_json( array('success' => true, 'message' => 'Lưu thành công', 'sql'=> $query), $status_code = null );
+	
+	} catch (Exception $e) {
+		wp_send_json( array('success' => false, 'message' => "Lưu thất bại"), $status_code = null );
 	}
 }
 // ================================Area of menu DV đổi tiền VN-CN end================================
