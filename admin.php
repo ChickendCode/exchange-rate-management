@@ -221,8 +221,8 @@ function money_change_vn_cn_menu_content() {
             <h4> Chia ra các quãng tính để áp dụng hệ số khác nhau cho công thức tính phí </h4>
             <div class="button-tool">
                 <button style="float:left" id="addRange">Thêm quãng</button>
-                <button style="float:right;margin-left:10px">Lưu</button>
-                <button style="float:right">Xóa toàn bộ</button>
+                <button style="float:right;margin-left:10px" id="saveRange">Lưu</button>
+                <button style="float:right" id="deleteAllRange">Xóa toàn bộ</button>
             </div>
             
             <table>

@@ -428,25 +428,8 @@ jQuery(document).ready(function($) {
 
     // Area of menu VNĐ -> CHY start ===================================================
     else if (money_change_vn_cn.length > 0) {
-        // Render table when init screen
-        renderRow();
-
-        $('#addRange').click(function() {
-            let row = {
-                to: '',
-                chargeTransaction: '',
-                unit: 'money'
-            };
-
-            if (listRange.length == 0) {
-                row.from = 0;
-            } else {
-                row.from = listRange[listRange.length - 1].to;
-            }
-
-            listRange.push(row);
-            renderRow(CLASS_NAME.MONEY_CHANGE_VN_CN);
-        });
+        // Bind event click button
+        bindEventButton(CLASS_NAME.MONEY_CHANGE_VN_CN, TYPE.VN_CN);
 
         // Get init data
         getSericeChangeMoney(TYPE.VN_CN, renderRow.bind(this, CLASS_NAME.MONEY_CHANGE_VN_CN));
@@ -517,13 +500,13 @@ jQuery(document).ready(function($) {
         $(className + ' table').append(htmlRow);
 
         // Bind event change input in table
-        bindEventInput(className);
+        bindEventChangeInput(className);
     }
 
     /**
      * Bind event change input in table
      */
-    function bindEventInput(className) {
+    function bindEventChangeInput(className) {
         $(className + ' table input').keyup(function() {
             let prop = $(this).data('id');
             let value = $(this).val();
@@ -536,6 +519,29 @@ jQuery(document).ready(function($) {
             }
 
             return false;
+        });
+    }
+
+    /**
+     * Bind event click button
+     */
+    function bindEventButton(className, type) {
+        $(className + ' #addRange').click(function() {
+            let row = {
+                to: '',
+                chargeTransaction: '',
+                unit: 'money',
+                type: type
+            };
+
+            if (listRange.length == 0) {
+                row.from = 0;
+            } else {
+                row.from = listRange[listRange.length - 1].to;
+            }
+
+            listRange.push(row);
+            renderRow(className);
         });
     }
 });
