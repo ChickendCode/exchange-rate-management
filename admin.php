@@ -24,6 +24,7 @@ function load_admin_style() {
    wp_enqueue_script( 'exchange_rate-chart-js', plugins_url( '/js/lib/Chart.min.js', __FILE__ ) );
    wp_enqueue_script( 'exchange_rate-utils', plugins_url( '/js/lib/utils.js', __FILE__ ) );
 
+   wp_enqueue_script( 'exchange_rate_common', plugins_url( '/js/common.js', __FILE__ ) );
    wp_enqueue_script( 'exchange_rate', plugins_url( '/js/admin.js', __FILE__ ) );
 
    wp_localize_script( 'exchange_rate', 'exchange_rate_js_vars', array( 'ajax_image' => plugin_dir_url( __FILE__ ) . 'images/loading.gif', 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
@@ -148,16 +149,16 @@ function exchange_rate_menu_content() {
             <table>
                 <tr>
                     <td>Tỷ giá</td>
-                    <td colspan="2"><input value="<?php esc_html_e( $rate, 'my-plugin-textdomain' ); ?>" style="width: 100%;" type="number" id="rate" placeholder="Nhập tỷ giá"></td>
+                    <td colspan="2"><input data-type='currency' pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="<?php esc_html_e( $rate, 'my-plugin-textdomain' ); ?>" style="width: 100%;" type="text" id="rate" placeholder="Nhập tỷ giá"></td>
                 </tr>
                 <tr>
                     <td>Giá trị X (Tỷ giá mua)</td>
-                    <td><input value="<?php esc_html_e( $rateBuy, 'my-plugin-textdomain' ); ?>" type="number" id="rateBuy" placeholder="Nhập X"></td>
+                    <td><input data-type='currency' pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="<?php esc_html_e( $rateBuy, 'my-plugin-textdomain' ); ?>" type="text" id="rateBuy" placeholder="Nhập X"></td>
                     <td class="price-buy"><label id="priceBuy"></label></td>
                 </tr>
                 <tr>
                     <td>Giá trị Y (Tỷ giá bán)</td>
-                    <td><input value="<?php esc_html_e( $rateSale, 'my-plugin-textdomain' ); ?>" type="number" id="rateSale" placeholder="Nhập Y"></td>
+                    <td><input data-type='currency' pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="<?php esc_html_e( $rateSale, 'my-plugin-textdomain' ); ?>" type="text" id="rateSale" placeholder="Nhập Y"></td>
                     <td class="price-sale"><label id="priceSale"></label></td>
                 </tr>
                 <tr>
@@ -479,8 +480,8 @@ function chart_menu_content() {
                 <td></td>
             </tr>
             <tr>
-                <td><input type="number" id="rateBuy"></td>
-                <td><input type="number" id="rateSale"></td>
+                <td><input data-type='currency' pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" type="text" id="rateBuy"></td>
+                <td><input data-type='currency' pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" type="text" id="rateSale"></td>
                 <td><button id="saveRateHistory">Lưu dữ liệu</button></td>
             </tr>
         </table>

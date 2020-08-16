@@ -56,13 +56,25 @@ jQuery(document).ready(function($) {
 
         }).keydown(function(event) {});
 
+        function getRate() {
+            return replaceCurrency($(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rate').val());
+        }
+
+        function getRateBuy() {
+            return replaceCurrency($(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rateBuy').val());
+        }
+
+        function getRateSale() {
+            return replaceCurrency($(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rateSale').val());
+        }
+
         /**
          * Calculator rate buy
          */
         function calRateBuy() {
             // priceBuy = rate - rateBuy
-            let priceBuy = $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rate').val() - $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rateBuy').val();
-            $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #priceBuy').text(priceBuy);
+            let priceBuy = getRate() - getRateBuy()
+            $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #priceBuy').text(formatCurrencyText(priceBuy));
         }
 
         /**
@@ -70,17 +82,17 @@ jQuery(document).ready(function($) {
          */
         function calRateSale() {
             // priceSale = rate - rateSale
-            let priceSale = $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rate').val() - $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rateSale').val();
-            $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #priceSale').text(priceSale);
+            let priceSale = getRate() - getRateSale()
+            $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #priceSale').text(formatCurrencyText(priceSale));
         }
 
         /**
          * Event save rate
          */
         $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #saveRate').click(function() {
-            let rate = $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rate').val();
-            let rateBuy = $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rateBuy').val();
-            let rateSale = $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rateSale').val();
+            let rate = getRate();
+            let rateBuy = getRateBuy();
+            let rateSale = getRateSale();
 
             if (rate == '' || rateBuy == '' || rateSale == '') {
                 alert('Hãy nhập đầy đủ thông tin');
@@ -316,8 +328,8 @@ jQuery(document).ready(function($) {
          */
         $('.chart_menu #saveRateHistory').click(function() {
             let datepicker = $('.chart_menu #datepicker').val();
-            let rateBuy = $('.chart_menu #rateBuy').val();
-            let rateSale = $('.chart_menu #rateSale').val();
+            let rateBuy = replaceCurrency($('.chart_menu #rateBuy').val());
+            let rateSale = replaceCurrency($('.chart_menu #rateSale').val());
 
             if (datepicker == '' || rateBuy == '' || rateSale == '') {
                 alert('Hãy nhập đầy đủ thông tin');
@@ -384,8 +396,8 @@ jQuery(document).ready(function($) {
          * Set data for input
          */
         function setDataInput(rateBuy, rateSale) {
-            $('.chart_menu #rateBuy').val(rateBuy);
-            $('.chart_menu #rateSale').val(rateSale);
+            $('.chart_menu #rateBuy').val(formatCurrencyText(rateBuy));
+            $('.chart_menu #rateSale').val(formatCurrencyText(rateSale));
         }
 
         $('.chart_menu .menu-select').click(function() {
@@ -664,5 +676,7 @@ jQuery(document).ready(function($) {
             listRange = [];
             renderRow(className);
         });
+
+        bindEventCommon();
     }
 });
