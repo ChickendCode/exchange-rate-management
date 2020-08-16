@@ -86,7 +86,25 @@ function create_plugin_database_table() {
         $sql .= "  `change_transaction`  int(128)   NOT NULL, ";
         $sql .= "  `unit`  varchar(128)   NOT NULL, ";
         $sql .= "  `type`  varchar(128)   NOT NULL, ";
-        $sql .= "  PRIMARY KEY `rate_history_id` (`id`) "; 
+        $sql .= "  PRIMARY KEY `service_change_money_id` (`id`) "; 
+        $sql .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ; ";
+        require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
+        dbDelta($sql);
+    }
+
+    // Create table service_change_money_option
+    $wp_service_change_money_option = 'wp_service_change_money_option';
+
+    #Check to see if the table exists already, if not, then create it
+    if($wpdb->get_var( "show tables like wp_service_change_money_option" ) != $wp_service_change_money_option) 
+    {
+
+        $sql = "CREATE TABLE `". $wp_service_change_money_option . "` ( ";
+        $sql .= "  `id`  int(11)   NOT NULL auto_increment, ";
+        $sql .= "  `fee_withdraw_alipay_wechat`  int(128)   NOT NULL, ";
+        $sql .= "  `difference_rate_tm_and_tk`  int(128)   NOT NULL, ";
+        $sql .= "  `type`  varchar(128)   NOT NULL, ";
+        $sql .= "  PRIMARY KEY `service_change_money_option_id` (`id`) "; 
         $sql .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ; ";
         require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
         dbDelta($sql);
@@ -287,9 +305,14 @@ function save_service_change_money() {
     
             $wpdb->query( $query );
         }
-		
 
-		wp_send_json( array('success' => true, 'message' => 'Lưu thành công', 'sql'=> $listRange), $status_code = null );
+        if ($type == 'CN_VN') {
+            $difference_rate_tm_and_tk = $_POST['difference_rate_tm_and_tk'];
+            $fee_withdraw_alipay_wechat = $_POST['fee_withdraw_alipay_wechat'];
+            save_service_change_money_option($difference_rate_tm_and_tk, $fee_withdraw_alipay_wechat, $type);
+        }
+
+		wp_send_json( array('success' => true, 'message' => 'Lưu thành công'), $status_code = null );
 	
 	} catch (Exception $e) {
 		wp_send_json( array('success' => false, 'message' => "Lưu thất bại"), $status_code = null );
@@ -314,6 +337,18 @@ function money_change_cn_vn_menu_content() {
     ?>
         <div class="money_change_cn_vn common-css">  
             <h1> Cấu hình dịch vụ CHY -> VNĐ</h1>
+
+            <div class="charge-rate">
+                <div>
+                    <div class="label"><label>Phí rút alipay, wechat</label></div>
+                    <input style="margin-left:28px" type="number" id="chargeWithdraw">
+                </div>
+                <div>
+                    <div class="label"><label>Tỷ giá chênh lệch tm và tk</label></div>
+                    <input type="number" id="rateDifference">
+                </div>
+            </div>
+
             <h3> Quãng tính </h3>
             <h4> Chia ra các quãng tính để áp dụng hệ số khác nhau cho công thức tính phí </h4>
             <div class="button-tool">
@@ -329,6 +364,47 @@ function money_change_cn_vn_menu_content() {
 }
 
 add_action( 'admin_menu', 'money_change_cn_vn_menu_admin' );
+
+/**
+ * Add action process save service change money option
+ */
+function save_service_change_money_option($difference_rate_tm_and_tk, $fee_withdraw_alipay_wechat, $type) {
+    global $wpdb; // this is how you get access to the database
+    $table_name = 'wp_service_change_money_option';
+    
+    $query = "DELETE FROM ". $table_name ." WHERE type='". $type ."'";
+    $wpdb->query( $query );
+
+    // Create query insert
+    $query = 'INSERT INTO '. $table_name .' (`fee_withdraw_alipay_wechat`, `difference_rate_tm_and_tk`, `type`) VALUES ';
+    $query .= " ( '". $fee_withdraw_alipay_wechat . "', '" . $difference_rate_tm_and_tk . "', '". $type ."' ) ";
+    $wpdb->query( $query );
+}
+
+/**
+ * Add action process save rate history
+ */
+add_action( 'wp_ajax_get_all_service_change_money_option', 'get_all_service_change_money_option' );
+add_action( 'wp_ajax_nopriv_get_all_service_change_money_option', 'get_all_service_change_money_option' );
+function get_all_service_change_money_option() {
+	try {
+        global $wpdb;
+
+        $type = $_GET['type'];
+
+        $sql = "
+            select * from wp_service_change_money_option
+            where 
+                type = '".$type."'
+            order by id
+        ";
+        $service_change_money_option = $wpdb->get_results($sql);
+        wp_send_json( array('status_code'=> 200, 'success' => true, 'message' => '', 'data'=> $service_change_money_option), $status_code = 200 );
+	
+	} catch (Exception $e) {
+		wp_send_json( array('fail' => false, 'message' => 'Error server'), $status_code = null );
+	}
+}
 
 // ================================Area of menu DV đổi tiền CN-VN end================================
 

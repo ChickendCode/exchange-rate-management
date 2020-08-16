@@ -7,7 +7,9 @@ jQuery(document).ready(function($) {
         VIEW_RATE_HISTORY: 'view_rate_history',
         GET_ALL_RATE_HISTORY: 'get_all_rate_history',
         GET_ALL_SERVICE_CHANGE_MONEY: 'get_all_service_change_money',
-        SAVE_SERVICE_CHANGE_MONEY: 'save_service_change_money'
+        GET_ALL_SERVICE_CHANGE_MONEY_OPTION: 'get_all_service_change_money_option',
+        SAVE_SERVICE_CHANGE_MONEY: 'save_service_change_money',
+        SAVE_SERVICE_CHANGE_MONEY_OPTION: 'save_service_change_money_option'
     }
 
     const FORMAT_DATA = {
@@ -447,8 +449,32 @@ jQuery(document).ready(function($) {
 
     // Area of menu VNĐ -> CHY end ===================================================
 
-    // Area of menu VNĐ -> CHY start ===================================================
+    // Area of menu CHY -> VNĐ start ===================================================
     else if (money_change_cn_vn.length > 0) {
+        /**
+         * Get data service change money option
+         */
+        function getSericeChangeMoneyOption(type) {
+            // Get data for char
+            $.ajax({
+                url: exchange_rate_js_vars.ajaxurl,
+                type: "GET",
+                data: {
+                    action: ACTION.GET_ALL_SERVICE_CHANGE_MONEY_OPTION,
+                    type: type
+                },
+                dataType: "json",
+                success: function(res) {
+                    let data = res.data[0];
+                    $('#rateDifference').val(data.difference_rate_tm_and_tk);
+                    $('#chargeWithdraw').val(data.fee_withdraw_alipay_wechat);
+                }
+            })
+        }
+
+        // Get data show screen
+        getSericeChangeMoneyOption(TYPE.CN_VN);
+
         // Bind event click button
         bindEventButton(CLASS_NAME.MONEY_CHANGE_CN_VN, TYPE.CN_VN);
 
@@ -456,7 +482,7 @@ jQuery(document).ready(function($) {
         getSericeChangeMoney(TYPE.CN_VN, renderRow.bind(this, CLASS_NAME.MONEY_CHANGE_CN_VN));
     }
 
-    // Area of menu VNĐ -> CHY end ===================================================
+    // Area of menu CHY -> VNĐ end ===================================================
 
     // Area of menu Dich vụ thanh toán hộ start ======================================
     else if (money_change_tth.length > 0) {
@@ -610,14 +636,22 @@ jQuery(document).ready(function($) {
             if (!result) {
                 return;
             }
+
+            let data = {
+                action: ACTION.SAVE_SERVICE_CHANGE_MONEY,
+                listRange: listRange,
+                type: type
+            }
+
+            if (type = TYPE.CN_VN) {
+                data.difference_rate_tm_and_tk = $('#rateDifference').val();
+                data.fee_withdraw_alipay_wechat = $('#chargeWithdraw').val();
+            }
+
             $.ajax({
                 url: exchange_rate_js_vars.ajaxurl,
                 type: "POST",
-                data: {
-                    action: ACTION.SAVE_SERVICE_CHANGE_MONEY,
-                    listRange: listRange,
-                    type: type
-                },
+                data: data,
                 dataType: "json",
                 success: function(res) {
                     alert(res.message);

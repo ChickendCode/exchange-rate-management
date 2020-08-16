@@ -114,3 +114,25 @@
 .common-css table tr td.delete {
     cursor: pointer;
 }
+
+.money_change_cn_vn .charge-rate label {
+    width: 100px;
+}
+
+.money_change_cn_vn .charge-rate div {
+    margin-bottom: 10px;
+}
+
+.money_change_cn_vn .charge-rate div.label:first-child {
+    display: inline;
+    margin-right: 50px;
+}
+
+.money_change_cn_vn .charge-rate div.label:last-child {
+    display: inline;
+    margin-right: 30px;
+}
+
+.money_change_cn_vn .charge-rate input {
+    width: 30%;
+}
