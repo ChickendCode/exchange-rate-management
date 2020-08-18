@@ -57,15 +57,27 @@ jQuery(document).ready(function($) {
         }).keydown(function(event) {});
 
         function getRate() {
-            return replaceCurrency($(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rate').val());
+            let rate = replaceCurrency($(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rate').val());
+            if (rate == '') {
+                return 0;
+            }
+            return parseInt(rate);
         }
 
         function getRateBuy() {
-            return replaceCurrency($(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rateBuy').val());
+            let rateBuy = replaceCurrency($(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rateBuy').val());
+            if (rateBuy == '') {
+                return 0;
+            }
+            return parseInt(rateBuy);
         }
 
         function getRateSale() {
-            return replaceCurrency($(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rateSale').val());
+            let rateSale = replaceCurrency($(CLASS_NAME.EXCHANGE_RATE_MENU + ' #rateSale').val());
+            if (rateSale == '') {
+                return 0;
+            }
+            return parseInt(rateSale);
         }
 
         /**
@@ -73,7 +85,7 @@ jQuery(document).ready(function($) {
          */
         function calRateBuy() {
             // priceBuy = rate - rateBuy
-            let priceBuy = getRate() - getRateBuy()
+            let priceBuy = getRate() - getRateBuy();
             $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #priceBuy').text(formatCurrencyText(priceBuy));
         }
 
@@ -81,8 +93,8 @@ jQuery(document).ready(function($) {
          * Calculator rate sale
          */
         function calRateSale() {
-            // priceSale = rate - rateSale
-            let priceSale = getRate() - getRateSale()
+            // priceSale = rate + rateSale
+            let priceSale = getRate() + getRateSale();
             $(CLASS_NAME.EXCHANGE_RATE_MENU + ' #priceSale').text(formatCurrencyText(priceSale));
         }
 
