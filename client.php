@@ -54,8 +54,8 @@ function money_rate_buy_sale_shortcode() {
     $Content .= '           <td class="title">BÁN RA</td>';
     $Content .= '       <tr>';
     $Content .= '       <tr>';
-    $Content .= '           <td><label class="rate_buy">'. $rateBuy . '</label></td>';
-    $Content .= '           <td><label class="rate_sale">'. $rateSale . '</label></td>';
+    $Content .= '           <td><div><span class="rate_buy">'. $rateBuy . '</span><span class="arow-up"></span></div></td>';
+    $Content .= '           <td><div><span class="rate_sale">'. $rateSale . '</span><span class="arow-down"></span></div></td>';
     $Content .= '       <tr>';
     $Content .= '   </table>';
     $Content .= '</div>';

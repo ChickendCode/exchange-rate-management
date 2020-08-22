@@ -64,6 +64,10 @@
     color: #23EAA4;
 }
 
+.money-rate-buy-sale .rate_buy {
+    float: left;
+}
+
 .money-rate-buy-sale .text {
     color: black;
     font-family: Roboto;
@@ -74,6 +78,26 @@
 
 .money-rate-buy-sale .rate_sale {
     color: #1FA3FF;
+}
+
+.money-rate-buy-sale .arow-up {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 10px 10px 10px;
+    border-color: transparent transparent #23EAA4 transparent;
+    border-radius: 9px;
+    vertical-align: sub;
+}
+
+.money-rate-buy-sale .arow-down {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 10px 0 10px;
+    border-color: #1FA3FF transparent transparent transparent;
+    border-radius: 9px;
+    vertical-align: sub;
 }
 
 .money-rate-buy-sale .title {
