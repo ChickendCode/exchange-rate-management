@@ -2,7 +2,8 @@
 jQuery(document).ready(function($) {
 
     const ACTION = {
-        GET_ALL_RATE_HISTORY: 'get_all_rate_history'
+        GET_ALL_RATE_HISTORY: 'get_all_rate_history',
+        GET_ALL_SERVICE_CHANGE_MONEY: 'get_all_service_change_money',
     };
 
     const FORMAT_DATA = {
@@ -21,6 +22,8 @@ jQuery(document).ready(function($) {
         CN_VN: 'CN_VN',
         TTH: 'TTH'
     }
+
+    var sericeChangeMoney = [];
 
     // Area of menu Tỷ giá start ===================================================
     let chart_menu = $(CLASS.CHART_MENU);
@@ -54,28 +57,21 @@ jQuery(document).ready(function($) {
     // Area of menu Tỷ giá end ===================================================
 
     if (money_change.length > 0) {
-        function get(type) {
-            // Wechat,alipay : (số tiền-phí rút alipay,wechat - phí giao dịch 1)* tỷ giá mua
+        let type = $(CLASS.MONEY_CHANGE + ' .money-change-type').val();
 
-            // Tiền mặt : (số tiền- phí giao dịch 1)*(tỷ giá mua -tỷ giá chênh lệch tm và tk)
-
-            // Tài khoản : (số tiền - phí giao dịch 1)* tỷ giá mua
-        }
-
-        $(".input-money input[type=text]").on({
+        $(CLASS.MONEY_CHANGE + ' .input-money input[type=text]').on({
             keyup: function() {
-                let type = $('.money-change-type').val();
                 let selectValue = $('.' + type).val();
                 let money = 0;
-                let inputMoney = $(this).val();
+                let inputMoney = parseStringToInt($(this).val());
                 let chargeTrans = 0;
-                let rate_sale = $('.rate-sale').val();
+                let rate_sale = parseStringToInt($('.rate-sale').val());
                 if (type == TYPE.CN_VN) {
                     // Wechat,alipay : (số tiền-phí rút alipay,wechat - phí giao dịch 1)* tỷ giá mua
                     chargeTrans = 0;
-                    let fee_withdraw_alipay_wechat = $('.fee_withdraw_alipay_wechat').val();
-                    let difference_rate_tm_and_tk = $('.difference_rate_tm_and_tk').val();
-                    let rate_buy = $('.rate-buy').val();
+                    let fee_withdraw_alipay_wechat = parseStringToInt($(CLASS.MONEY_CHANGE + ' .fee_withdraw_alipay_wechat').val());
+                    let difference_rate_tm_and_tk = parseStringToInt($(CLASS.MONEY_CHANGE + ' .difference_rate_tm_and_tk').val());
+                    let rate_buy = parseStringToInt($(CLASS.MONEY_CHANGE + ' .rate-buy').val());
                     if (selectValue == 1) {
                         money = (inputMoney - fee_withdraw_alipay_wechat - chargeTrans) * rate_buy;
 
@@ -97,10 +93,44 @@ jQuery(document).ready(function($) {
                     money = (inputMoney + chargeTrans) * rate_sale;
                 }
 
-                $('.output-money input[type=text]').val(money);
+                $(CLASS.MONEY_CHANGE + ' .output-money input[type=text]').val(money + ' VNĐ');
             },
             blur: function() {}
         });
+
+        $(CLASS.MONEY_CHANGE + ' select').change(function() {
+            $(CLASS.MONEY_CHANGE + ' .input-money input[type=text]').trigger('keyup');
+        });
+
+        /**
+         * Get data service change money
+         */
+        function getSericeChangeMoney(type) {
+            // Get data for char
+            $.ajax({
+                url: exchange_rate_js_vars.ajaxurl,
+                type: "GET",
+                data: {
+                    action: ACTION.GET_ALL_SERVICE_CHANGE_MONEY,
+                    type: type
+                },
+                dataType: "json",
+                success: function(res) {
+                    sericeChangeMoney = res.data;
+                }
+            })
+        }
+
+        // Get data show screen
+        getSericeChangeMoney(type);
+
+        function parseStringToInt(value) {
+            if (value == undefined || value == '') {
+                return 0;
+            }
+
+            return parseInt(value);
+        }
     }
 
     // Area of menu Biểu đồ start ===================================================
