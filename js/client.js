@@ -3,22 +3,51 @@ jQuery(document).ready(function($) {
 
     const ACTION = {
         GET_ALL_RATE_HISTORY: 'get_all_rate_history'
-    }
+    };
 
     const FORMAT_DATA = {
-        YYYY_MM_DD: 'YYYY-MM-DD'
-    }
+        YYYY_MM_DD: 'YYYY-MM-DD',
+        DD_MM_YYYY: 'DD/MM/YYYY'
+    };
+
+    const CLASS = {
+        CHART_MENU: '.chart_menu',
+        MONEY_RATE_BUY_SALE: '.money-rate-buy-sale'
+    };
 
     // Area of menu Tỷ giá start ===================================================
-    let chart_menu = $('.chart_menu');
-    let exchange_rate_menu = $('.exchange_rate_menu');
+    let chart_menu = $(CLASS.CHART_MENU);
+    let money_rate_buy_sale = $(CLASS.MONEY_RATE_BUY_SALE);
 
-    if (exchange_rate_menu.length > 0) {}
+    if (money_rate_buy_sale.length > 0) {
+        startTime();
+
+        let currentDate = moment(new Date()).format(FORMAT_DATA.DD_MM_YYYY);
+        $(CLASS.MONEY_RATE_BUY_SALE + ' .date').text(currentDate);
+
+        function startTime() {
+            var today = new Date();
+            var h = today.getHours();
+            var m = today.getMinutes();
+            var s = today.getSeconds();
+            m = checkTime(m);
+            s = checkTime(s);
+            $(CLASS.MONEY_RATE_BUY_SALE + ' .time').text(h + ":" + m + ":" + s);
+            var t = setTimeout(startTime, 500);
+        }
+
+        function checkTime(i) {
+            if (i < 10) { i = "0" + i }; // add zero in front of numbers < 10
+            return i;
+        }
+
+        $(CLASS.MONEY_RATE_BUY_SALE).show();
+    }
     // Area of menu Tỷ giá end ===================================================
 
 
     // Area of menu Biểu đồ start ===================================================
-    else if (chart_menu.length > 0) {
+    if (chart_menu.length > 0) {
 
         function getThisWeekDates() {
             let startDayTemp = moment();

@@ -29,7 +29,55 @@ function load_client_style() {
     wp_localize_script( 'exchange_rate', 'exchange_rate_js_vars', array( 'ajax_image' => plugin_dir_url( __FILE__ ) . 'images/loading.gif', 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
  }
 
+ // ==========================Area rate buy and rate sale start ========================
  /**
+ * Money change service
+ */
+function money_rate_buy_sale_shortcode() {
+    $rates = get_rate_table();
+    $rateBuy = '';
+    $rateSale = '';
+    if (count($rates) > 0) {
+        $rate = $rates[0]->rate;
+        $rateX = $rates[0]->rate_buy;
+        $rateY = $rates[0]->rate_sale;
+
+        $rateBuy = $rate - $rateX;
+        $rateSale = $rate + $rateY;
+    }
+
+    $Content = '<div class="money-rate-buy-sale hide">';
+    $Content .= '   <div>Tỷ giá tiền trung hôm nay <span class="date"></span> lúc <span class="time"><span></div>';;
+    $Content .= '   <table>';
+    $Content .= '       <tr>';
+    $Content .= '           <td>MUA VÀO</td>';
+    $Content .= '           <td>BÁN RA</td>';
+    $Content .= '       <tr>';
+    $Content .= '       <tr>';
+    $Content .= '           <td><label>'. $rateBuy . '</label></td>';
+    $Content .= '           <td><label>'. $rateSale . '</label></td>';
+    $Content .= '       <tr>';
+    $Content .= '   </table>';
+    $Content .= '</div>';
+	 
+    return $Content;
+}
+
+add_shortcode('money-rate-buy-sale', 'money_rate_buy_sale_shortcode');
+
+/**
+ * Get data table wp_rate
+ */
+function get_rate_table() {
+    global $wpdb;
+    $rate = $wpdb->get_results("SELECT * FROM wp_rate");
+
+    return $rate;
+}
+
+ // ==========================Area rate buy and rate sale end===========================
+
+/**
  * Money change service
  */
 function money_change_cn_vn_shortcode() {
