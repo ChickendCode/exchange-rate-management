@@ -16,9 +16,16 @@ jQuery(document).ready(function($) {
         MONEY_CHANGE: '.money-change'
     };
 
+    const TYPE = {
+        VN_CN: 'VN_CN',
+        CN_VN: 'CN_VN',
+        TTH: 'TTH'
+    }
+
     // Area of menu Tỷ giá start ===================================================
     let chart_menu = $(CLASS.CHART_MENU);
     let money_rate_buy_sale = $(CLASS.MONEY_RATE_BUY_SALE);
+    let money_change = $(CLASS.MONEY_CHANGE);
 
     if (money_rate_buy_sale.length > 0) {
         startTime();
@@ -46,6 +53,55 @@ jQuery(document).ready(function($) {
     }
     // Area of menu Tỷ giá end ===================================================
 
+    if (money_change.length > 0) {
+        function get(type) {
+            // Wechat,alipay : (số tiền-phí rút alipay,wechat - phí giao dịch 1)* tỷ giá mua
+
+            // Tiền mặt : (số tiền- phí giao dịch 1)*(tỷ giá mua -tỷ giá chênh lệch tm và tk)
+
+            // Tài khoản : (số tiền - phí giao dịch 1)* tỷ giá mua
+        }
+
+        $(".input-money input[type=text]").on({
+            keyup: function() {
+                let type = $('.money-change-type').val();
+                let selectValue = $('.' + type).val();
+                let money = 0;
+                let inputMoney = $(this).val();
+                let chargeTrans = 0;
+                let rate_sale = $('.rate-sale').val();
+                if (type == TYPE.CN_VN) {
+                    // Wechat,alipay : (số tiền-phí rút alipay,wechat - phí giao dịch 1)* tỷ giá mua
+                    chargeTrans = 0;
+                    let fee_withdraw_alipay_wechat = $('.fee_withdraw_alipay_wechat').val();
+                    let difference_rate_tm_and_tk = $('.difference_rate_tm_and_tk').val();
+                    let rate_buy = $('.rate-buy').val();
+                    if (selectValue == 1) {
+                        money = (inputMoney - fee_withdraw_alipay_wechat - chargeTrans) * rate_buy;
+
+                        // Tiền mặt : (số tiền- phí giao dịch 1)*(tỷ giá mua -tỷ giá chênh lệch tm và tk)
+                    } else if (selectValue == 2) {
+                        money = (inputMoney - chargeTrans) * (rate_buy - difference_rate_tm_and_tk);
+
+                        // Tài khoản : (số tiền - phí giao dịch 1)* tỷ giá mua
+                    } else if (selectValue == 3) {
+                        money = (inputMoney - chargeTrans) * rate_buy;
+                    }
+                } else if (type == TYPE.VN_CN) {
+                    // (số tiền + phí giao dịch 2)* tỷ giá bán
+                    chargeTrans = 0;
+                    money = (inputMoney + chargeTrans) * rate_sale;
+                } else if (type == TYPE.TTH) {
+                    // (số tiền + phí giao dịch 3)* tỷ giá bán
+                    chargeTrans = 0;
+                    money = (inputMoney + chargeTrans) * rate_sale;
+                }
+
+                $('.output-money input[type=text]').val(money);
+            },
+            blur: function() {}
+        });
+    }
 
     // Area of menu Biểu đồ start ===================================================
     if (chart_menu.length > 0) {

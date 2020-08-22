@@ -139,6 +139,16 @@
     border: none;
 }
 
+.money-change table {
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 80px;
+}
+
+.money-change table tr td {
+    /* padding-left: 30px; */
+}
+
 .money-change .output-money {
     display: inline-flex;
     border-bottom: solid#4CE2A7;
@@ -178,4 +188,8 @@
     font-style: normal;
     font-weight: normal;
     font-size: 24px;
+}
+
+.money-change .money {
+    width: 100%;
 }

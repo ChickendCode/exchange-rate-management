@@ -81,29 +81,83 @@ function get_rate_table() {
  * Money change service
  */
 function money_change_shortcode($atts) {
+    $VN_CN = 'VN_CN';
+    $CN_VN = 'CN_VN';
+    $TTH = 'TTH';
     $type = $atts['type'];
 
-    $Content = '<div class="money-change">';
+    // Get data rate
+    $rates = get_rate_table();
+    $rateBuy = 0;
+    $rateSale = 0;
+    if (count($rates) > 0) {
+        $rate = $rates[0]->rate;
+        $rateX = $rates[0]->rate_buy;
+        $rateY = $rates[0]->rate_sale;
 
-    $Content .= '   <div class="title">Đổi tiền Trung sang tiền Việt</div>';;
+        $rateBuy = $rate - $rateX;
+        $rateSale = $rate + $rateY;
+    }
+
+    // get_wp_service_change_money_option
+
+    $get_wp_service_change_money_option = get_wp_service_change_money_option();
+    $fee_withdraw_alipay_wechat = 0;
+    $difference_rate_tm_and_tk = 0;
+
+    if (count($get_wp_service_change_money_option) > 0) {
+        $fee_withdraw_alipay_wechat = $get_wp_service_change_money_option[0]->fee_withdraw_alipay_wechat;
+        $difference_rate_tm_and_tk = $get_wp_service_change_money_option[0]->difference_rate_tm_and_tk;
+    }
+
+    $Content = '<div class="money-change">';
+    if ($type == $CN_VN) {
+        $Content .= '   <div class="title">Đổi tiền Trung sang tiền Việt</div>';
+        $Content .= '   <input class="rate-buy" type="hidden" value="'. $rateBuy . '" />';
+        $Content .= '   <input class="rate-sale" type="hidden" value="'. $rateSale . '" />';
+        $Content .= '   <input class="fee_withdraw_alipay_wechat" type="hidden" value="'. $fee_withdraw_alipay_wechat . '" />';
+        $Content .= '   <input class="difference_rate_tm_and_tk" type="hidden" value="'. $difference_rate_tm_and_tk . '" />';
+    } else if ($type == $VN_CN) {
+        $Content .= '   <div class="title">Đổi tiền Việt sang tiền Trung</div>';
+    } else if ($type == $TTH) {
+        $Content .= '   <div class="title">Thanh toán hộ</div>';
+    }
+    
     $Content .= '   <table>';
     $Content .= '       <tr>';
     $Content .= '           <td>';
-    $Content .= '               <select class="cn-vn">';
-    $Content .= '                   <option value="0">Chọn nguồn tiền trung</option>';
-    $Content .= '                   <option value="1">Wechat, alipay</option>';
-    $Content .= '                   <option value="2">Tiền mặt</option>';
-    $Content .= '                   <option value="3">Tài khoản</option>';
-    $Content .= '               </select>';
+
+    if ($type == $CN_VN) {
+        $Content .= '               <select class="'. $CN_VN. '">';
+        $Content .= '                   <option value="0">Chọn nguồn tiền trung</option>';
+        $Content .= '                   <option value="1">Wechat, alipay</option>';
+        $Content .= '                   <option value="2">Tiền mặt</option>';
+        $Content .= '                   <option value="3">Tài khoản</option>';
+        $Content .= '               </select>';
+    } else if ($type == $VN_CN) {
+        $Content .= '               <select class="'. $VN_CN. '">';
+        $Content .= '                   <option value="0">Chọn nguồn tiền trung</option>';
+        $Content .= '                   <option value="1">Nạp tệ wechat, alipay</option>';
+        $Content .= '                   <option value="2">Chuyển khoản</option>';
+        $Content .= '               </select>';
+    } else if ($type == $TTH) {
+        $Content .= '               <select class="'. $TTH .'">';
+        $Content .= '                   <option value="0">Chọn trang cần thanh toán</option>';
+        $Content .= '                   <option value="1">Taobao</option>';
+        $Content .= '                   <option value="2">1688</option>';
+        $Content .= '                   <option value="3">Khác</option>';
+        $Content .= '               </select>';
+    }
+    
     $Content .= '           </td>';
     $Content .= '           <td>';
-    $Content .= '               <div class="input-money">';
+    $Content .= '               <div class="money input-money">';
     $Content .= '                   <span>$</span>';
     $Content .= '                   <input type="text" placeholder="Nhập số tiền muốn đổi" />';
     $Content .= '               </div>';
     $Content .= '           <td>';
     $Content .= '           <td>';
-    $Content .= '               <div class="output-money">';
+    $Content .= '               <div class="money output-money">';
     $Content .= '                   <span>$</span>';
     $Content .= '                   <input type="text" readonly value="100.000.000 VND"/>';
     $Content .= '               </div>';
@@ -112,6 +166,7 @@ function money_change_shortcode($atts) {
     $Content .= '   </table>';
     $Content .= '   <div class="footer">';
     $Content .= '       <button>GIAO DỊCH NGAY</button>';
+    $Content .= '       <input class="money-change-type" type="hidden" value="'. $type . '" />';
     $Content .= '   </div>';
     $Content .= '</div>';
 	 
@@ -119,6 +174,16 @@ function money_change_shortcode($atts) {
 }
 
 add_shortcode('money-change', 'money_change_shortcode');
+
+/**
+ * Get data table wp_service_change_money_option
+ */
+function get_wp_service_change_money_option() {
+    global $wpdb;
+    $wp_service_change_money_option = $wpdb->get_results("SELECT * FROM wp_service_change_money_option");
+
+    return $wp_service_change_money_option;
+}
 
 
 // ================================Area of Chart start================================
