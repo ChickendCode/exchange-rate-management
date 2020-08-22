@@ -84,7 +84,8 @@ function money_change_shortcode($atts) {
     $type = $atts['type'];
 
     $Content = '<div class="money-change">';
-    $Content .= '   <div class="text">Đổi tiền Trung sang tiền Việt</div>';;
+
+    $Content .= '   <div class="title">Đổi tiền Trung sang tiền Việt</div>';;
     $Content .= '   <table>';
     $Content .= '       <tr>';
     $Content .= '           <td>';
@@ -109,6 +110,9 @@ function money_change_shortcode($atts) {
     $Content .= '           <td>';
     $Content .= '       <tr>';
     $Content .= '   </table>';
+    $Content .= '   <div class="footer">';
+    $Content .= '       <button>GIAO DỊCH NGAY</button>';
+    $Content .= '   </div>';
     $Content .= '</div>';
 	 
     return $Content;

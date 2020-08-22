@@ -158,4 +158,24 @@
     outline: none;
     border: none;
     color: #4CE2A7;
+    font-weight: bold;
+}
+
+.money-change .footer {
+    margin-bottom: 20px;
+}
+
+.money-change .footer button {
+    background: #1FA3FF;
+    color: white;
+    float: right;
+}
+
+.money-change .title {
+    color: #000000;
+    margin-bottom: 20px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
 }
