@@ -47,7 +47,7 @@ function money_rate_buy_sale_shortcode() {
     }
 
     $Content = '<div class="money-rate-buy-sale hide">';
-    $Content .= '   <div>Tỷ giá tiền trung hôm nay <span class="date"></span> lúc <span class="time"><span></div>';;
+    $Content .= '   <div class="text">Tỷ giá tiền trung hôm nay <span class="date"></span> lúc <span class="time"><span></div>';;
     $Content .= '   <table>';
     $Content .= '       <tr>';
     $Content .= '           <td class="title">MUA VÀO</td>';

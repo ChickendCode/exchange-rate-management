@@ -58,8 +58,18 @@
     margin: 0;
 }
 
-.money-rate-buy-sale .rate_buy {
+.money-rate-buy-sale .rate_buy,
+.money-rate-buy-sale .date,
+.money-rate-buy-sale .time {
     color: #23EAA4;
+}
+
+.money-rate-buy-sale .text {
+    color: black;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
 }
 
 .money-rate-buy-sale .rate_sale {
@@ -75,4 +85,9 @@
     align-items: center;
     color: #233D63;
     margin: 0;
+    width: 200px;
+}
+
+.money-rate-buy-sale table {
+    margin-top: 25px;
 }
