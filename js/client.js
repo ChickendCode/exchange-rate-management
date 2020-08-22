@@ -12,7 +12,8 @@ jQuery(document).ready(function($) {
 
     const CLASS = {
         CHART_MENU: '.chart_menu',
-        MONEY_RATE_BUY_SALE: '.money-rate-buy-sale'
+        MONEY_RATE_BUY_SALE: '.money-rate-buy-sale',
+        MONEY_CHANGE: '.money-change'
     };
 
     // Area of menu Tỷ giá start ===================================================

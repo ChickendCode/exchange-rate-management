@@ -114,3 +114,48 @@
 .money-rate-buy-sale table {
     margin-top: 25px;
 }
+
+.money-change select {
+    height: 50px;
+}
+
+.money-change .input-money {
+    display: inline-flex;
+    border-bottom: solid #F1A153;
+}
+
+.money-change .input-money span {
+    width: 77px;
+    background: #FCE7C4;
+    text-align: center;
+    padding-top: 18px;
+    color: #FFAA31;
+}
+
+.money-change .input-money input {
+    margin: 0px 0px 0px 0px;
+    height: 47px;
+    outline: none;
+    border: none;
+}
+
+.money-change .output-money {
+    display: inline-flex;
+    border-bottom: solid#4CE2A7;
+}
+
+.money-change .output-money span {
+    width: 77px;
+    background: #CBF3DC;
+    text-align: center;
+    padding-top: 18px;
+    color: #4CE2A7;
+}
+
+.money-change .output-money input {
+    margin: 0px 0px 0px 0px;
+    height: 47px;
+    outline: none;
+    border: none;
+    color: #4CE2A7;
+}

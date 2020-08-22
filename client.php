@@ -80,16 +80,41 @@ function get_rate_table() {
 /**
  * Money change service
  */
-function money_change_cn_vn_shortcode() {
+function money_change_shortcode($atts) {
+    $type = $atts['type'];
 
-    $Content = '<div>';
-    $Content = 'Đổi tiền Trung sang tiền Việt';
-	$Content .= '</div>';
+    $Content = '<div class="money-change">';
+    $Content .= '   <div class="text">Đổi tiền Trung sang tiền Việt</div>';;
+    $Content .= '   <table>';
+    $Content .= '       <tr>';
+    $Content .= '           <td>';
+    $Content .= '               <select class="cn-vn">';
+    $Content .= '                   <option value="0">Chọn nguồn tiền trung</option>';
+    $Content .= '                   <option value="1">Wechat, alipay</option>';
+    $Content .= '                   <option value="2">Tiền mặt</option>';
+    $Content .= '                   <option value="3">Tài khoản</option>';
+    $Content .= '               </select>';
+    $Content .= '           </td>';
+    $Content .= '           <td>';
+    $Content .= '               <div class="input-money">';
+    $Content .= '                   <span>$</span>';
+    $Content .= '                   <input type="text" placeholder="Nhập số tiền muốn đổi" />';
+    $Content .= '               </div>';
+    $Content .= '           <td>';
+    $Content .= '           <td>';
+    $Content .= '               <div class="output-money">';
+    $Content .= '                   <span>$</span>';
+    $Content .= '                   <input type="text" readonly value="100.000.000 VND"/>';
+    $Content .= '               </div>';
+    $Content .= '           <td>';
+    $Content .= '       <tr>';
+    $Content .= '   </table>';
+    $Content .= '</div>';
 	 
     return $Content;
 }
 
-add_shortcode('money-change-cn-vn', 'money_change_cn_vn_shortcode');
+add_shortcode('money-change', 'money_change_shortcode');
 
 
 // ================================Area of Chart start================================
