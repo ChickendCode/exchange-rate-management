@@ -21,6 +21,11 @@ jQuery(document).ready(function($) {
         VN_CN: 'VN_CN',
         CN_VN: 'CN_VN',
         TTH: 'TTH'
+    };
+
+    const UNIT = {
+        MONEY: 'money',
+        PERCENT: 'percent'
     }
 
     var sericeChangeMoney = [];
@@ -64,16 +69,15 @@ jQuery(document).ready(function($) {
                 let selectValue = $('.' + type).val();
                 let money = 0;
                 let inputMoney = parseStringToInt($(this).val());
-                let chargeTrans = 0;
+                let chargeTrans = getChargeTrans(inputMoney);
                 let rate_sale = parseStringToInt($('.rate-sale').val());
                 if (type == TYPE.CN_VN) {
                     // Wechat,alipay : (số tiền-phí rút alipay,wechat - phí giao dịch 1)* tỷ giá mua
-                    chargeTrans = 0;
                     let fee_withdraw_alipay_wechat = parseStringToInt($(CLASS.MONEY_CHANGE + ' .fee_withdraw_alipay_wechat').val());
                     let difference_rate_tm_and_tk = parseStringToInt($(CLASS.MONEY_CHANGE + ' .difference_rate_tm_and_tk').val());
                     let rate_buy = parseStringToInt($(CLASS.MONEY_CHANGE + ' .rate-buy').val());
                     if (selectValue == 1) {
-                        money = (inputMoney - fee_withdraw_alipay_wechat - chargeTrans) * rate_buy;
+                        money = (inputMoney - (inputMoney * fee_withdraw_alipay_wechat) - chargeTrans) * rate_buy;
 
                         // Tiền mặt : (số tiền- phí giao dịch 1)*(tỷ giá mua -tỷ giá chênh lệch tm và tk)
                     } else if (selectValue == 2) {
@@ -85,11 +89,9 @@ jQuery(document).ready(function($) {
                     }
                 } else if (type == TYPE.VN_CN) {
                     // (số tiền + phí giao dịch 2)* tỷ giá bán
-                    chargeTrans = 0;
                     money = (inputMoney + chargeTrans) * rate_sale;
                 } else if (type == TYPE.TTH) {
                     // (số tiền + phí giao dịch 3)* tỷ giá bán
-                    chargeTrans = 0;
                     money = (inputMoney + chargeTrans) * rate_sale;
                 }
 
@@ -106,7 +108,6 @@ jQuery(document).ready(function($) {
          * Get data service change money
          */
         function getSericeChangeMoney(type) {
-            // Get data for char
             $.ajax({
                 url: exchange_rate_js_vars.ajaxurl,
                 type: "GET",
@@ -130,6 +131,23 @@ jQuery(document).ready(function($) {
             }
 
             return parseInt(value);
+        }
+
+        function getChargeTrans(inputMoney) {
+            let chargeTrans = 0;
+            for (let index = 0; index < sericeChangeMoney.length; index++) {
+                const element = sericeChangeMoney[index];
+                if (element.range_from < inputMoney < element.range_to) {
+                    if (UNIT.MONEY == element.unit) {
+                        chargeTrans = element.change_transaction;
+                    } else if (UNIT.PERCENT == element.unit) {
+                        chargeTrans = inputMoney * element.change_transaction;
+                    }
+                    break;
+                }
+            }
+
+            return chargeTrans
         }
     }
 
