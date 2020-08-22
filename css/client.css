@@ -47,3 +47,32 @@
 .hide {
     display: none;
 }
+
+.money-rate-buy-sale .rate_buy,
+.money-rate-buy-sale .rate_sale {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 40px;
+    line-height: 49px;
+    margin: 0;
+}
+
+.money-rate-buy-sale .rate_buy {
+    color: #23EAA4;
+}
+
+.money-rate-buy-sale .rate_sale {
+    color: #1FA3FF;
+}
+
+.money-rate-buy-sale .title {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+    align-items: center;
+    color: #233D63;
+    margin: 0;
+}

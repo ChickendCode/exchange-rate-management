@@ -50,12 +50,12 @@ function money_rate_buy_sale_shortcode() {
     $Content .= '   <div>Tỷ giá tiền trung hôm nay <span class="date"></span> lúc <span class="time"><span></div>';;
     $Content .= '   <table>';
     $Content .= '       <tr>';
-    $Content .= '           <td>MUA VÀO</td>';
-    $Content .= '           <td>BÁN RA</td>';
+    $Content .= '           <td class="title">MUA VÀO</td>';
+    $Content .= '           <td class="title">BÁN RA</td>';
     $Content .= '       <tr>';
     $Content .= '       <tr>';
-    $Content .= '           <td><label>'. $rateBuy . '</label></td>';
-    $Content .= '           <td><label>'. $rateSale . '</label></td>';
+    $Content .= '           <td><label class="rate_buy">'. $rateBuy . '</label></td>';
+    $Content .= '           <td><label class="rate_sale">'. $rateSale . '</label></td>';
     $Content .= '       <tr>';
     $Content .= '   </table>';
     $Content .= '</div>';
