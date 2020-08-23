@@ -24,6 +24,7 @@ function load_client_style() {
     wp_enqueue_script( 'exchange_rate-chart-js', plugins_url( '/js/lib/Chart.min.js', __FILE__ ) );
     wp_enqueue_script( 'exchange_rate-utils', plugins_url( '/js/lib/utils.js', __FILE__ ) );
 
+    wp_enqueue_script( 'exchange_rate_common', plugins_url( '/js/common.js', __FILE__ ) );
     wp_enqueue_script( 'exchange_rate', plugins_url( '/js/client.js', __FILE__ ) );
  
     wp_localize_script( 'exchange_rate', 'exchange_rate_js_vars', array( 'ajax_image' => plugin_dir_url( __FILE__ ) . 'images/loading.gif', 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
@@ -159,7 +160,7 @@ function money_change_shortcode($atts) {
     $Content .= '           <td>';
     $Content .= '               <div class="money output-money">';
     $Content .= '                   <span>$</span>';
-    $Content .= '                   <input type="text" readonly value="100.000.000 VND"/>';
+    $Content .= '                   <input type="text" readonly value="0 VND"/>';
     $Content .= '               </div>';
     $Content .= '           <td>';
     $Content .= '       <tr>';

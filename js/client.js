@@ -95,7 +95,7 @@ jQuery(document).ready(function($) {
                     money = (inputMoney + chargeTrans) * rate_sale;
                 }
 
-                $(CLASS.MONEY_CHANGE + ' .output-money input[type=text]').val(money + ' VNĐ');
+                $(CLASS.MONEY_CHANGE + ' .output-money input[type=text]').val(formatCurrencyText(money) + ' VNĐ');
             },
             blur: function() {}
         });
