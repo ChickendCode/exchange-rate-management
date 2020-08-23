@@ -69,11 +69,11 @@ jQuery(document).ready(function($) {
                 let selectValue = $('.' + type).val();
                 let money = 0;
                 let inputMoney = parseStringToInt($(this).val());
-                let chargeTrans = getChargeTrans(inputMoney);
+                let chargeTrans = parseStringToInt(getChargeTrans(inputMoney));
                 let rate_sale = parseStringToInt($('.rate-sale').val());
                 if (type == TYPE.CN_VN) {
                     // Wechat,alipay : (số tiền-phí rút alipay,wechat - phí giao dịch 1)* tỷ giá mua
-                    let fee_withdraw_alipay_wechat = parseStringToInt($(CLASS.MONEY_CHANGE + ' .fee_withdraw_alipay_wechat').val());
+                    let fee_withdraw_alipay_wechat = parseStringToFloat($(CLASS.MONEY_CHANGE + ' .fee_withdraw_alipay_wechat').val());
                     let difference_rate_tm_and_tk = parseStringToInt($(CLASS.MONEY_CHANGE + ' .difference_rate_tm_and_tk').val());
                     let rate_buy = parseStringToInt($(CLASS.MONEY_CHANGE + ' .rate-buy').val());
                     if (selectValue == 1) {
@@ -131,6 +131,14 @@ jQuery(document).ready(function($) {
             }
 
             return parseInt(value);
+        }
+
+        function parseStringToFloat(value) {
+            if (value == undefined || value == '') {
+                return 0;
+            }
+
+            return parseFloat(value);
         }
 
         function getChargeTrans(inputMoney) {
