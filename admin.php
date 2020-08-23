@@ -84,7 +84,7 @@ function create_plugin_database_table() {
         $sql .= "  `id`  int(11)   NOT NULL auto_increment, ";
         $sql .= "  `range_from`  int(128)   NOT NULL, ";
         $sql .= "  `range_to`  int(128)   NOT NULL, ";
-        $sql .= "  `change_transaction`  int(128)   NOT NULL, ";
+        $sql .= "  `change_transaction`  double(128)   NOT NULL, ";
         $sql .= "  `unit`  varchar(128)   NOT NULL, ";
         $sql .= "  `type`  varchar(128)   NOT NULL, ";
         $sql .= "  PRIMARY KEY `service_change_money_id` (`id`) "; 
@@ -102,7 +102,7 @@ function create_plugin_database_table() {
 
         $sql = "CREATE TABLE `". $wp_service_change_money_option . "` ( ";
         $sql .= "  `id`  int(11)   NOT NULL auto_increment, ";
-        $sql .= "  `fee_withdraw_alipay_wechat`  int(128)   NOT NULL, ";
+        $sql .= "  `fee_withdraw_alipay_wechat`  double(128)   NOT NULL, ";
         $sql .= "  `difference_rate_tm_and_tk`  int(128)   NOT NULL, ";
         $sql .= "  `type`  varchar(128)   NOT NULL, ";
         $sql .= "  PRIMARY KEY `service_change_money_option_id` (`id`) "; 
