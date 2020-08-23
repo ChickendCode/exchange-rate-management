@@ -112,10 +112,10 @@ function money_change_shortcode($atts) {
     }
 
     $Content = '<div class="money-change">';
+    $Content .= '   <input class="rate-buy" type="hidden" value="'. $rateBuy . '" />';
+    $Content .= '   <input class="rate-sale" type="hidden" value="'. $rateSale . '" />';    
     if ($type == $CN_VN) {
         $Content .= '   <div class="title">Đổi tiền Trung sang tiền Việt</div>';
-        $Content .= '   <input class="rate-buy" type="hidden" value="'. $rateBuy . '" />';
-        $Content .= '   <input class="rate-sale" type="hidden" value="'. $rateSale . '" />';
         $Content .= '   <input class="fee_withdraw_alipay_wechat" type="hidden" value="'. $fee_withdraw_alipay_wechat . '" />';
         $Content .= '   <input class="difference_rate_tm_and_tk" type="hidden" value="'. $difference_rate_tm_and_tk . '" />';
     } else if ($type == $VN_CN) {
