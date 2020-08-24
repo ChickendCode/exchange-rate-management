@@ -87,10 +87,10 @@ jQuery(document).ready(function($) {
                     } else if (selectValue == 3) {
                         money = (inputMoney - chargeTrans) * rate_buy;
                     }
-                } else if (type == TYPE.VN_CN) {
+                } else if (type == TYPE.VN_CN && selectValue != 0) {
                     // (số tiền + phí giao dịch 2)* tỷ giá bán
                     money = (inputMoney + chargeTrans) * rate_sale;
-                } else if (type == TYPE.TTH) {
+                } else if (type == TYPE.TTH && selectValue != 0) {
                     // (số tiền + phí giao dịch 3)* tỷ giá bán
                     money = (inputMoney + chargeTrans) * rate_sale;
                 }
@@ -356,16 +356,9 @@ jQuery(document).ready(function($) {
             var chart = new Chart(ctx, cfg);
             $('#legend').empty();
             $('#legend').prepend(chart.generateLegend());
-        }
 
-        $('.chart_menu .menu-select').click(function() {
-            let offset = $(this).offset();
-            $('.menu-select-child').css({
-                top: offset.top + 30,
-                left: offset.left - 100,
-                display: 'block'
-            })
-        });
+            chart_menu.show();
+        }
 
         $('.chart_menu .menu-select-child li').click(function() {
             $(this).siblings('.active').removeClass('active');
@@ -382,10 +375,12 @@ jQuery(document).ready(function($) {
         });
 
         function closeChildMenu() {
-            $('.menu-select-child').css(
-                'display', 'none'
-            );
+            $('.dropdown-content').css('display', 'none');
         }
+
+        $('.chart_menu .menu-select').click(function() {
+            $('.dropdown-content').css('display', 'block')
+        });
 
         /**
          * Reload chart

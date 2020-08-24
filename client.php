@@ -193,17 +193,18 @@ function get_wp_service_change_money_option() {
  */
 function chart_history_shortcode() {
 
-    $Content = '';
-    $Content .= '<div class="chart_menu">';
+    $Content = '<div class="chart_menu hide">';
     $Content .= '   <div style="width: 500px">';
-    $Content .= '       <div>';
-    $Content .= '           <p class="menu-select">&#8226;&#8226;&#8226;</p>';
-    $Content .= '           <div class="menu-select-child">';
-    $Content .= '               <ul>';
-    $Content .= '                   <li class="this-week active">Tuần này</li>';
-    $Content .= '                   <li class="this-month">Tháng này</li>';
-    $Content .= '                   <li class="last-monnt">Tháng trước</li>';
-    $Content .= '               </ul>';
+    $Content .= '       <div style="float: right">';
+    $Content .= '           <div class="menu-select-child dropdown">';
+    $Content .= '               <p class="menu-select">&#8226;&#8226;&#8226;</p>';
+    $Content .= '               <div class="dropdown-content">';
+    $Content .= '                   <ul>';
+    $Content .= '                       <li class="this-week active">Tuần này</li>';
+    $Content .= '                       <li class="this-month">Tháng này</li>';
+    $Content .= '                       <li class="last-monnt">Tháng trước</li>';
+    $Content .= '                   </ul>';
+    $Content .= '            </div>';
     $Content .= '           </div>';
     $Content .= '       </div>';
     $Content .= '       <div id="legend" class="chart-legend"></div>';
