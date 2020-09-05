@@ -194,7 +194,7 @@ function get_wp_service_change_money_option() {
 function chart_history_shortcode() {
 
     $Content = '<div class="chart_menu hide">';
-    $Content .= '   <div style="width: 500px">';
+    $Content .= '   <div style="width: 100%;">';
     $Content .= '       <div style="float: right">';
     $Content .= '           <div class="menu-select-child dropdown">';
     $Content .= '               <p class="menu-select">&#8226;&#8226;&#8226;</p>';

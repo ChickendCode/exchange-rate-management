@@ -246,9 +246,6 @@ jQuery(document).ready(function($) {
 
             var ctx = document.getElementById('chart').getContext('2d');
 
-            ctx.canvas.width = 500;
-            ctx.canvas.height = 300;
-
             let labels = data.map(element => element.date);
             let rateBuyData = data.map(element => element.rate_buy);
             let rateSaleData = data.map(element => element.rate_sale);
@@ -282,6 +279,7 @@ jQuery(document).ready(function($) {
                     ]
                 },
                 options: {
+                    responsive: true,
                     animation: {
                         duration: 0
                     },
@@ -354,6 +352,7 @@ jQuery(document).ready(function($) {
             };
 
             var chart = new Chart(ctx, cfg);
+
             $('#legend').empty();
             $('#legend').prepend(chart.generateLegend());
 
