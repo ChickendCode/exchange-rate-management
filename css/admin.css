@@ -75,6 +75,11 @@
     color: white;
 }
 
+.chart_menu .form-search {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 .common-css {
     padding-right: 15px;
 }

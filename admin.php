@@ -485,12 +485,16 @@ function chart_menu_content() {
                 <td><button id="saveRateHistory">Lưu dữ liệu</button></td>
             </tr>
         </table>
+        <hr>
+        <div class="form-search">
+            <input placeholder="Ngày bắt đầu" type="text" id="startDate">
+            <input placeholder="Ngày kết thúc" type="text" id="endDate">
+        </div>
         <div style="width: 500px">
             <div><p class="menu-select">&#8226;&#8226;&#8226;</p></div>
             <div class="menu-select-child">
                 <ul>
-                    <li class="this-week active">Tuần này</li>
-                    <li class="this-month">Tháng này</li>
+                    <li class="this-month active">Tháng này</li>
                     <li class="last-monnt">Tháng trước</li>
                 </ul>
             </div>

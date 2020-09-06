@@ -44,6 +44,14 @@
     list-style-type: none;
 }
 
+.chart_menu .form-search {
+    display: inline-flex;
+}
+
+.chart_menu .form-search #startDate {
+    margin-right: 10px;
+}
+
 .chart_menu .dropdown {
     position: relative;
     display: inline-block;
