@@ -400,7 +400,7 @@ jQuery(document).ready(function($) {
             };
 
             var chart = new Chart(ctx, cfg);
-            chart.canvas.parentNode.style.height = '300px';
+            chart.canvas.parentNode.style.height = '245px';
             // chart.canvas.parentNode.style.width = '128px';
 
             $('#legend').empty();
