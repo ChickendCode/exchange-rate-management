@@ -8,7 +8,8 @@ jQuery(document).ready(function($) {
 
     const FORMAT_DATA = {
         YYYY_MM_DD: 'YYYY-MM-DD',
-        DD_MM_YYYY: 'DD/MM/YYYY'
+        DD_MM_YYYY: 'DD/MM/YYYY',
+        DD_MM_YYYY_SMALL: 'dd/mm/yy'
     };
 
     const CLASS = {
@@ -161,6 +162,52 @@ jQuery(document).ready(function($) {
 
     // Area of menu Biểu đồ start ===================================================
     if (chart_menu.length > 0) {
+        $("#startDate").datepicker({
+            dateFormat: FORMAT_DATA.DD_MM_YYYY_SMALL
+        });
+
+        $("#endDate").datepicker({
+            dateFormat: FORMAT_DATA.DD_MM_YYYY_SMALL
+        });
+
+        // On change date
+        $("#startDate").change(function() {
+            var date = $(this).datepicker('getDate');
+            date.setDate(date.getDate() + 29);
+
+            $("#endDate").datepicker({
+                dateFormat: FORMAT_DATA.DD_MM_YYYY_SMALL,
+                maxDate: date
+            }).datepicker("setDate", date);
+
+            let data = getStartEndDate();
+            // Get data for char
+            getDataForChart(data);
+        });
+
+        $("#endDate").change(function() {
+            var date = $(this).datepicker('getDate');
+            date.setDate(date.getDate() - 29);
+
+            $("#startDate").datepicker({
+                dateFormat: FORMAT_DATA.DD_MM_YYYY_SMALL,
+                maxDate: date
+            }).datepicker("setDate", date);
+
+            let data = getStartEndDate();
+            // Get data for char
+            getDataForChart(data);
+        });
+
+        function getStartEndDate() {
+            let startDate = $('#startDate').datepicker('getDate');
+            let endDate = $('#endDate').datepicker('getDate');
+
+            return {
+                startDate: moment(startDate).format(FORMAT_DATA.YYYY_MM_DD),
+                endDate: moment(endDate).format(FORMAT_DATA.YYYY_MM_DD)
+            }
+        }
 
         function getThisWeekDates() {
             let startDayTemp = moment();
@@ -353,7 +400,7 @@ jQuery(document).ready(function($) {
             };
 
             var chart = new Chart(ctx, cfg);
-            chart.canvas.parentNode.style.height = '300px';
+            chart.canvas.parentNode.style.height = '245px';
             // chart.canvas.parentNode.style.width = '128px';
 
             $('#legend').empty();

@@ -139,6 +139,53 @@ jQuery(document).ready(function($) {
             maxDate: new Date
         }).datepicker("setDate", new Date());
 
+        $("#startDate").datepicker({
+            dateFormat: FORMAT_DATA.DD_MM_YYYY_SMALL
+        });
+
+        $("#endDate").datepicker({
+            dateFormat: FORMAT_DATA.DD_MM_YYYY_SMALL
+        });
+
+        // On change date
+        $("#startDate").change(function() {
+            var date = $(this).datepicker('getDate');
+            date.setDate(date.getDate() + 29);
+
+            $("#endDate").datepicker({
+                dateFormat: FORMAT_DATA.DD_MM_YYYY_SMALL,
+                maxDate: date
+            }).datepicker("setDate", date);
+
+            let data = getStartEndDate();
+            // Get data for char
+            getDataForChart(data);
+        });
+
+        $("#endDate").change(function() {
+            var date = $(this).datepicker('getDate');
+            date.setDate(date.getDate() - 29);
+
+            $("#startDate").datepicker({
+                dateFormat: FORMAT_DATA.DD_MM_YYYY_SMALL,
+                maxDate: date
+            }).datepicker("setDate", date);
+
+            let data = getStartEndDate();
+            // Get data for char
+            getDataForChart(data);
+        });
+
+        function getStartEndDate() {
+            let startDate = $('#startDate').datepicker('getDate');
+            let endDate = $('#endDate').datepicker('getDate');
+
+            return {
+                startDate: moment(startDate).format(FORMAT_DATA.YYYY_MM_DD),
+                endDate: moment(endDate).format(FORMAT_DATA.YYYY_MM_DD)
+            }
+        }
+
         function getThisWeekDates() {
             let startDayTemp = moment();
 

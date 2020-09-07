@@ -194,14 +194,17 @@ function get_wp_service_change_money_option() {
 function chart_history_shortcode() {
 
     $Content = '<div class="chart_menu hide">';
+    $Content .= '   <div class="form-search">';
+    $Content .= '       <input placeholder="Ngày bắt đầu" type="text" id="startDate">';
+    $Content .= '       <input placeholder="Ngày kết thúc" type="text" id="endDate">';
+    $Content .= '   </div>';
     $Content .= '   <div style="width: 100%;">';
     $Content .= '       <div style="float: right">';
     $Content .= '           <div class="menu-select-child dropdown">';
     $Content .= '               <p class="menu-select">&#8226;&#8226;&#8226;</p>';
     $Content .= '               <div class="dropdown-content">';
     $Content .= '                   <ul>';
-    $Content .= '                       <li class="this-week active">Tuần này</li>';
-    $Content .= '                       <li class="this-month">Tháng này</li>';
+    $Content .= '                       <li class="this-month active">Tháng này</li>';
     $Content .= '                       <li class="last-monnt">Tháng trước</li>';
     $Content .= '                   </ul>';
     $Content .= '            </div>';
