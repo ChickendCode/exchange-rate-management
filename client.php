@@ -166,7 +166,6 @@ function money_change_shortcode($atts) {
     $Content .= '       <tr>';
     $Content .= '   </table>';
     $Content .= '   <div class="footer">';
-    $Content .= '       <button>GIAO DỊCH NGAY</button>';
     $Content .= '       <input class="money-change-type" type="hidden" value="'. $type . '" />';
     $Content .= '   </div>';
     $Content .= '</div>';

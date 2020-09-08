@@ -264,8 +264,21 @@ jQuery(document).ready(function($) {
             return getMonthDateRange(current.year(), current.month() - 1);
         }
 
-        // Get data for char
-        getDataForChart(getThisWeekDates());
+        // Get data for char from 30 day before to current date
+        function getDatesBeforeToCurrentDate() {
+            let startDayTemp = moment();
+
+            var day = startDayTemp.day();
+            let startDate = moment().add('days', (day - 32)).format(FORMAT_DATA.YYYY_MM_DD);
+            let endDate = moment().format(FORMAT_DATA.YYYY_MM_DD);
+
+            return {
+                startDate: startDate,
+                endDate: endDate
+            }
+        }
+        
+        getDataForChart(getDatesBeforeToCurrentDate());
 
         /**
          * Get data for char
