@@ -16,7 +16,7 @@ function load_client_style() {
     wp_register_style( 'exchange_rate', plugins_url( '/css/client.css', __FILE__ ) );
    wp_enqueue_style( 'exchange_rate' );
     
-    wp_enqueue_script( 'exchange_rate-jquery', plugins_url( '/js/lib/jquery.min.js', __FILE__ ) );
+    // wp_enqueue_script( 'exchange_rate-jquery', plugins_url( '/js/lib/jquery.min.js', __FILE__ ) );
     wp_enqueue_script( 'exchange_rate-jquery-ui', plugins_url( '/js/lib/jquery-ui.min.js', __FILE__ ) );
     
     wp_enqueue_script( 'exchange_rate-moment', plugins_url( '/js/lib/moment.min.js', __FILE__ ) );
