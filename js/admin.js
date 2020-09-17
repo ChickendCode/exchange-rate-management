@@ -631,12 +631,12 @@ jQuery(document).ready(function($) {
                         <select class="unit" data-id="unit">`;
             if (element.unit == UNIT.MONEY) {
                 htmlRow += `
-                            <option value="` + UNIT.MONEY + `" selected>vnd</option>
+                            <option value="` + UNIT.MONEY + `" selected>CHY</option>
                             <option value="` + UNIT.PERCENT + `">%</option>
                             `;
             } else {
                 htmlRow += `
-                            <option value="` + UNIT.MONEY + `">vnd</option>
+                            <option value="` + UNIT.MONEY + `">CHY</option>
                             <option value="` + UNIT.PERCENT + `" selected>%</option>
                             `;
             }

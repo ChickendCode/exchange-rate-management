@@ -70,6 +70,11 @@ jQuery(document).ready(function($) {
                 let selectValue = $('.' + type).val();
                 let money = 0;
                 let inputMoney = parseStringToInt($(this).val());
+                if (inputMoney == 0) {
+                    $(CLASS.MONEY_CHANGE + ' .output-money input[type=text]').val('0 VNĐ');
+                    return;
+                }
+                
                 let chargeTrans = parseStringToInt(getChargeTrans(inputMoney));
                 let rate_sale = parseStringToInt($('.rate-sale').val());
                 if (type == TYPE.CN_VN) {
