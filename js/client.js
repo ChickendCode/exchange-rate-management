@@ -83,7 +83,7 @@ jQuery(document).ready(function($) {
                     let difference_rate_tm_and_tk = parseStringToInt($(CLASS.MONEY_CHANGE + ' .difference_rate_tm_and_tk').val());
                     let rate_buy = parseStringToInt($(CLASS.MONEY_CHANGE + ' .rate-buy').val());
                     if (selectValue == 1) {
-                        money = (inputMoney - (inputMoney * fee_withdraw_alipay_wechat) - chargeTrans) * rate_buy;
+                        money = (inputMoney - (inputMoney * (fee_withdraw_alipay_wechat/100)) - chargeTrans) * rate_buy;
 
                         // Tiền mặt : (số tiền- phí giao dịch 1)*(tỷ giá mua -tỷ giá chênh lệch tm và tk)
                     } else if (selectValue == 2) {
@@ -151,7 +151,7 @@ jQuery(document).ready(function($) {
             let chargeTrans = 0;
             for (let index = 0; index < sericeChangeMoney.length; index++) {
                 const element = sericeChangeMoney[index];
-                if (element.range_from < inputMoney < element.range_to) {
+                if (parseInt(element.range_from) < inputMoney < parseInt(element.range_to)) {
                     if (UNIT.MONEY == element.unit) {
                         chargeTrans = element.change_transaction;
                     } else if (UNIT.PERCENT == element.unit) {
