@@ -151,7 +151,7 @@ jQuery(document).ready(function($) {
             let chargeTrans = 0;
             for (let index = 0; index < sericeChangeMoney.length; index++) {
                 const element = sericeChangeMoney[index];
-                if (parseInt(element.range_from) < inputMoney <= parseInt(element.range_to)) {
+                if (parseInt(element.range_from) < inputMoney && inputMoney <= parseInt(element.range_to)) {
                     if (UNIT.MONEY == element.unit) {
                         chargeTrans = element.change_transaction;
                     } else if (UNIT.PERCENT == element.unit) {
