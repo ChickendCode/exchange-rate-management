@@ -101,6 +101,7 @@ jQuery(document).ready(function($) {
                     money = (inputMoney + chargeTrans) * rate_sale;
                 }
 
+                money = Math.round(money);
                 $(CLASS.MONEY_CHANGE + ' .output-money input[type=text]').val(formatCurrencyText(money) + ' VNĐ');
             },
             blur: function() {}
@@ -155,7 +156,7 @@ jQuery(document).ready(function($) {
                     if (UNIT.MONEY == element.unit) {
                         chargeTrans = element.change_transaction;
                     } else if (UNIT.PERCENT == element.unit) {
-                        chargeTrans = inputMoney * element.change_transaction;
+                        chargeTrans = inputMoney * (element.change_transaction / 100);
                     }
                     break;
                 }
