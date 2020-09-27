@@ -1,5 +1,5 @@
 // A $( document ).ready() block.
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
 
     const ACTION = {
         GET_ALL_RATE_HISTORY: 'get_all_rate_history',
@@ -66,15 +66,17 @@ jQuery(document).ready(function($) {
         let type = $(CLASS.MONEY_CHANGE + ' .money-change-type').val();
 
         $(CLASS.MONEY_CHANGE + ' .input-money input[type=text]').on({
-            keyup: function() {
+            keyup: function () {
                 let selectValue = $('.' + type).val();
                 let money = 0;
                 let inputMoney = parseStringToInt($(this).val());
                 if (inputMoney == 0) {
                     $(CLASS.MONEY_CHANGE + ' .output-money input[type=text]').val('0 VNĐ');
+                    $('.charge_trans_display').text('');
+                    $('.money_real_recive_display').text('');
                     return;
                 }
-                
+
                 let chargeTrans = parseStringToInt(getChargeTrans(inputMoney));
                 let rate_sale = parseStringToInt($('.rate-sale').val());
                 if (type == TYPE.CN_VN) {
@@ -83,7 +85,7 @@ jQuery(document).ready(function($) {
                     let difference_rate_tm_and_tk = parseStringToInt($(CLASS.MONEY_CHANGE + ' .difference_rate_tm_and_tk').val());
                     let rate_buy = parseStringToInt($(CLASS.MONEY_CHANGE + ' .rate-buy').val());
                     if (selectValue == 1) {
-                        money = (inputMoney - (inputMoney * (fee_withdraw_alipay_wechat/100)) - chargeTrans) * rate_buy;
+                        money = (inputMoney - (inputMoney * (fee_withdraw_alipay_wechat / 100)) - chargeTrans) * rate_buy;
 
                         // Tiền mặt : (số tiền- phí giao dịch 1)*(tỷ giá mua -tỷ giá chênh lệch tm và tk)
                     } else if (selectValue == 2) {
@@ -102,12 +104,17 @@ jQuery(document).ready(function($) {
                 }
 
                 money = Math.round(money);
-                $(CLASS.MONEY_CHANGE + ' .output-money input[type=text]').val(formatCurrencyText(money) + ' VNĐ');
+                money = formatCurrencyText(money) + ' VNĐ';
+                $(CLASS.MONEY_CHANGE + ' .output-money input[type=text]').val(money);
+
+                // Setting data to plugin small
+                $('.charge_trans_display').text(chargeTrans);
+                $('.money_real_recive_display').text(money);
             },
-            blur: function() {}
+            blur: function () { }
         });
 
-        $(CLASS.MONEY_CHANGE + ' select').change(function() {
+        $(CLASS.MONEY_CHANGE + ' select').change(function () {
             $(CLASS.MONEY_CHANGE + ' .input-money input[type=text]').trigger('keyup');
         });
 
@@ -123,7 +130,7 @@ jQuery(document).ready(function($) {
                     type: type
                 },
                 dataType: "json",
-                success: function(res) {
+                success: function (res) {
                     sericeChangeMoney = res.data;
                 }
             })
@@ -177,7 +184,7 @@ jQuery(document).ready(function($) {
         });
 
         // On change date
-        $("#startDate").change(function() {
+        $("#startDate").change(function () {
             var date = $(this).datepicker('getDate');
             date.setDate(date.getDate() + 29);
 
@@ -191,7 +198,7 @@ jQuery(document).ready(function($) {
             getDataForChart(data);
         });
 
-        $("#endDate").change(function() {
+        $("#endDate").change(function () {
             var date = $(this).datepicker('getDate');
             date.setDate(date.getDate() - 29);
 
@@ -283,7 +290,7 @@ jQuery(document).ready(function($) {
                 endDate: endDate
             }
         }
-        
+
         getDataForChart(getDatesBeforeToCurrentDate());
 
         /**
@@ -300,7 +307,7 @@ jQuery(document).ready(function($) {
                     endDate: date.endDate
                 },
                 dataType: "json",
-                success: function(res) {
+                success: function (res) {
                     drawChart(res.data);
                 }
             })
@@ -321,27 +328,27 @@ jQuery(document).ready(function($) {
                 data: {
                     labels: labels,
                     datasets: [{
-                            label: 'Tỷ giá mua',
-                            backgroundColor: '#1CA1FF',
-                            borderColor: '#1CA1FF',
-                            data: rateBuyData,
-                            type: 'line',
-                            pointRadius: 0,
-                            fill: false,
-                            lineTension: 0,
-                            borderWidth: 2
-                        },
-                        {
-                            label: 'Tỷ giá bán',
-                            backgroundColor: '#20EAA2',
-                            borderColor: '#20EAA2',
-                            data: rateSaleData,
-                            type: 'line',
-                            pointRadius: 0,
-                            fill: false,
-                            lineTension: 0,
-                            borderWidth: 2
-                        }
+                        label: 'Tỷ giá mua',
+                        backgroundColor: '#1CA1FF',
+                        borderColor: '#1CA1FF',
+                        data: rateBuyData,
+                        type: 'line',
+                        pointRadius: 0,
+                        fill: false,
+                        lineTension: 0,
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Tỷ giá bán',
+                        backgroundColor: '#20EAA2',
+                        borderColor: '#20EAA2',
+                        data: rateSaleData,
+                        type: 'line',
+                        pointRadius: 0,
+                        fill: false,
+                        lineTension: 0,
+                        borderWidth: 2
+                    }
                     ]
                 },
                 options: {
@@ -365,7 +372,7 @@ jQuery(document).ready(function($) {
                                 maxRotation: 0,
                                 sampleSize: 100
                             },
-                            afterBuildTicks: function(scale, ticks) {
+                            afterBuildTicks: function (scale, ticks) {
                                 return ticks;
                             },
                             gridLines: {
@@ -385,7 +392,7 @@ jQuery(document).ready(function($) {
                         intersect: false,
                         mode: 'index',
                         callbacks: {
-                            label: function(tooltipItem, myData) {
+                            label: function (tooltipItem, myData) {
                                 var label = myData.datasets[tooltipItem.datasetIndex].label || '';
                                 if (label) {
                                     label += ': ';
@@ -398,7 +405,7 @@ jQuery(document).ready(function($) {
                     legend: {
                         display: false
                     },
-                    legendCallback: function(chart) {
+                    legendCallback: function (chart) {
                         var text = [];
                         text.push('<ul class="' + chart.id + '-legend">');
                         for (var i = 0; i < chart.data.datasets.length; i++) {
@@ -428,14 +435,14 @@ jQuery(document).ready(function($) {
             chart_menu.show();
         }
 
-        $('.chart_menu .menu-select-child li').click(function() {
+        $('.chart_menu .menu-select-child li').click(function () {
             $(this).siblings('.active').removeClass('active');
             $(this).addClass('active');
 
             reloadChart();
         });
 
-        $(document).click(function(event) {
+        $(document).click(function (event) {
             if (event.target.className == 'menu-select') {
                 return;
             }
@@ -446,7 +453,7 @@ jQuery(document).ready(function($) {
             $('.dropdown-content').css('display', 'none');
         }
 
-        $('.chart_menu .menu-select').click(function() {
+        $('.chart_menu .menu-select').click(function () {
             $('.dropdown-content').css('display', 'block')
         });
 

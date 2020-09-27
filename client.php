@@ -274,3 +274,32 @@ function rate_sale_shortcode($atts)
 }
 
 add_shortcode('get_sale_buy', 'rate_sale_shortcode');
+
+/**
+ * Charge transaction
+ */
+function charge_trans_shortcode($atts)
+{
+
+    // Get data rate
+    $Content = '<span class="charge_trans_display"></span>';
+
+    return $Content;
+}
+
+add_shortcode('charge_trans', 'charge_trans_shortcode');
+
+
+/**
+ * Charge transaction
+ */
+function money_real_recive_shortcode($atts)
+{
+
+    // Get data rate
+    $Content = '<span class="money_real_recive_display"></span>';
+
+    return $Content;
+}
+
+add_shortcode('money_real_recive', 'money_real_recive_shortcode');
