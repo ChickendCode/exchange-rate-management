@@ -276,12 +276,11 @@ function rate_sale_shortcode($atts)
 add_shortcode('get_sale_buy', 'rate_sale_shortcode');
 
 /**
- * Charge transaction
+ * Charge transaction shortcode
  */
 function charge_trans_shortcode($atts)
 {
 
-    // Get data rate
     $Content = '<span class="charge_trans_display"></span>';
 
     return $Content;
@@ -291,7 +290,7 @@ add_shortcode('charge_trans', 'charge_trans_shortcode');
 
 
 /**
- * Charge transaction
+ * Money real recive shortcode
  */
 function money_real_recive_shortcode($atts)
 {
@@ -303,3 +302,18 @@ function money_real_recive_shortcode($atts)
 }
 
 add_shortcode('money_real_recive', 'money_real_recive_shortcode');
+
+
+/**
+ * Withdrawal fee shortcode
+ */
+function withdrawal_fee_shortcode($atts)
+{
+
+    // Get data rate
+    $Content = '<span class="withdrawal_fee_display"></span>';
+
+    return $Content;
+}
+
+add_shortcode('withdrawal_fee', 'withdrawal_fee_shortcode');

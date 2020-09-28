@@ -74,6 +74,7 @@ jQuery(document).ready(function ($) {
                     $(CLASS.MONEY_CHANGE + ' .output-money input[type=text]').val('0 VNĐ');
                     $('.charge_trans_display').text('');
                     $('.money_real_recive_display').text('');
+                    $('.withdrawal_fee_display').text('');
                     return;
                 }
 
@@ -87,6 +88,8 @@ jQuery(document).ready(function ($) {
                     if (selectValue == 1) {
                         money = (inputMoney - (inputMoney * (fee_withdraw_alipay_wechat / 100)) - chargeTrans) * rate_buy;
 
+                        // Setting data to shortcode withdrawal_fee
+                        $('.withdrawal_fee_display').text(fee_withdraw_alipay_wechat);
                         // Tiền mặt : (số tiền- phí giao dịch 1)*(tỷ giá mua -tỷ giá chênh lệch tm và tk)
                     } else if (selectValue == 2) {
                         money = (inputMoney - chargeTrans) * (rate_buy - difference_rate_tm_and_tk);
@@ -107,8 +110,9 @@ jQuery(document).ready(function ($) {
                 money = formatCurrencyText(money) + ' VNĐ';
                 $(CLASS.MONEY_CHANGE + ' .output-money input[type=text]').val(money);
 
-                // Setting data to plugin small
+                // Setting data to shortcode charge_trans
                 $('.charge_trans_display').text(chargeTrans);
+                // Setting data to shortcode money_real_recive
                 $('.money_real_recive_display').text(money);
             },
             blur: function () { }
