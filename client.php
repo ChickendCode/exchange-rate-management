@@ -273,7 +273,7 @@ function rate_sale_shortcode($atts)
     return $Content;
 }
 
-add_shortcode('get_sale_buy', 'rate_sale_shortcode');
+add_shortcode('get_rate_sale', 'rate_sale_shortcode');
 
 /**
  * Charge transaction shortcode
