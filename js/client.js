@@ -111,6 +111,7 @@ jQuery(document).ready(function ($) {
                 $(CLASS.MONEY_CHANGE + ' .output-money input[type=text]').val(money);
 
                 // Setting data to shortcode charge_trans
+                chargeTrans = formatCurrencyText(money) + ' CHY';
                 $('.charge_trans_display').text(chargeTrans);
                 // Setting data to shortcode money_real_recive
                 $('.money_real_recive_display').text(money);
