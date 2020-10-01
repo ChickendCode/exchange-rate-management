@@ -245,7 +245,7 @@ function rate_buy_shortcode($atts)
         $rateBuy = $rate - $rateX;
     }
 
-    $Content = $rateBuy;
+    $Content = '<span>Tỷ giá mua: </span>'.$rateBuy;
 
     return $Content;
 }
@@ -268,7 +268,7 @@ function rate_sale_shortcode($atts)
         $rateSale = $rate + $rateY;
     }
 
-    $Content = $rateSale;
+    $Content = '<span>Tỷ giá bán: </span>'.$rateSale;
 
     return $Content;
 }
@@ -281,7 +281,7 @@ add_shortcode('get_rate_sale', 'rate_sale_shortcode');
 function charge_trans_shortcode($atts)
 {
 
-    $Content = '<span class="charge_trans_display"></span>';
+    $Content = '<span>Phí giao dịch: </span><span class="charge_trans_display"></span>';
 
     return $Content;
 }
@@ -296,7 +296,7 @@ function money_real_recive_shortcode($atts)
 {
 
     // Get data rate
-    $Content = '<span class="money_real_recive_display"></span>';
+    $Content = '<span>Số tiền việt cần thanh toán: </span><span class="money_real_recive_display"></span>';
 
     return $Content;
 }
@@ -311,7 +311,7 @@ function withdrawal_fee_shortcode($atts)
 {
 
     // Get data rate
-    $Content = '<span class="withdrawal_fee_display"></span>';
+    $Content = '<span>Phí rút tiền Wechat: </span><span class="withdrawal_fee_display"></span>';
 
     return $Content;
 }
