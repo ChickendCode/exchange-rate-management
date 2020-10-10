@@ -200,6 +200,16 @@ function save_rate() {
         }
 		
 		$wpdb->query( $query );
+		
+		// Update table wp_rate_history
+		$rateBuy = $rate - $rateBuy;
+        $rateSale = $rate + $rateSale;
+		date_default_timezone_set('Asia/Ho_Chi_Minh');
+		$datepicker = date('Y-m-d');
+		$query = "UPDATE `wp_rate_history` 
+                    SET `rate_buy`=". $rateBuy .",`rate_sale`=". $rateSale."
+                    where date='". $datepicker."'";
+		$wpdb->query( $query );
 
 		wp_send_json( array('success' => true, 'message' => 'Lưu thành công'), $status_code = null );
 	

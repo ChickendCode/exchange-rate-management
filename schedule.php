@@ -16,6 +16,7 @@ if (count($rates) > 0) {
     $rateSale = $rate + $rateY;
 }
 
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 $datepicker = date('Y-m-d');
 
 $query = "INSERT INTO `wp_rate_history`(`rate_buy`, `rate_sale`, `date`) 
