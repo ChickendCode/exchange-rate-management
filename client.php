@@ -129,9 +129,8 @@ function money_change_shortcode($atts)
         $Content .= '   <div class="title">Thanh toán hộ</div>';
     }
 
-    $Content .= '   <table>';
-    $Content .= '       <tr>';
-    $Content .= '           <td>';
+    $Content .= ' <div class="money-change-table">';
+    $Content .= '           <div>';
 
     if ($type == $CN_VN) {
         $Content .= '               <select class="' . $CN_VN . '">';
@@ -155,21 +154,16 @@ function money_change_shortcode($atts)
         $Content .= '               </select>';
     }
 
-    $Content .= '           </td>';
-    $Content .= '           <td>';
-    $Content .= '               <div class="money input-money">';
-    $Content .= '                   <span>$</span>';
-    $Content .= '                   <input type="text" placeholder="Nhập số tiền muốn đổi" />';
-    $Content .= '               </div>';
-    $Content .= '           <td>';
-    $Content .= '           <td>';
-    $Content .= '               <div class="money output-money">';
-    $Content .= '                   <span>$</span>';
-    $Content .= '                   <input type="text" readonly value="0 VND"/>';
-    $Content .= '               </div>';
-    $Content .= '           <td>';
-    $Content .= '       <tr>';
-    $Content .= '   </table>';
+    $Content .= '           </div>';
+    $Content .= '           <div class="money input-money">';
+    $Content .= '                <span>$</span>';
+    $Content .= '                <input type="text" placeholder="Nhập số tiền muốn đổi" />';
+    $Content .= '           </div>';
+    $Content .= '           <div class="money output-money">';
+    $Content .= '               <span>$</span>';
+    $Content .= '               <input type="text" readonly value="0 VND"/>';
+    $Content .= '           </div>';
+    $Content .= '   </div>';
     $Content .= '   <div class="footer">';
     $Content .= '       <input class="money-change-type" type="hidden" value="' . $type . '" />';
     $Content .= '   </div>';
