@@ -246,5 +246,14 @@
 	.money-change-table div {
     	margin-bottom: 10px;
 		margin-right: 0px;
-	}
+    }
+    
+    .money-rate-buy-sale .text {
+        text-align: center;
+    }
+
+    .money-rate-buy-sale table {
+        width: 90%;
+        margin-left: 40px;
+    }
 }
